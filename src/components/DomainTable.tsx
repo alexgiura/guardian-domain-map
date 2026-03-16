@@ -80,7 +80,7 @@ const DomainTable = () => {
         </div>
 
         <div className="grid grid-cols-[1fr_80px_100px_80px_44px] gap-4 px-4 py-2.5 text-[10px] uppercase font-semibold text-muted-foreground border-b border-border bg-muted/50">
-          <span>Valoare</span>
+          <span className="pl-6">Valoare</span>
           <span className="text-center">Tip</span>
           <span className="text-center">Status</span>
           <span className="text-center">Raportări</span>
