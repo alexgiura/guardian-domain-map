@@ -23,46 +23,46 @@ const getTagColor = (tag: string) => {
 
 const TicketList = ({ tickets }: TicketListProps) => {
   return (
-    <div className="p-4 pl-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+    <div className="p-3 pl-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
       {tickets.map((ticket) => (
         <div
           key={ticket.ticketId}
-          className="bg-card border border-border rounded-lg p-5 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between"
+          className="bg-card border border-border rounded-md p-3 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between gap-2"
         >
-          <div>
-            <div className="flex items-center justify-between mb-4">
-              <span className="font-mono text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded-sm">
-                {ticket.ticketId}
-              </span>
-              <span className="text-xs text-muted-foreground uppercase tracking-wide">
-                {ticket.date}
-              </span>
-            </div>
+          <div className="flex items-center justify-between">
+            <span className="font-mono text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded-sm">
+              {ticket.ticketId}
+            </span>
+            <span className="text-[10px] text-muted-foreground uppercase tracking-wide">
+              {ticket.date}
+            </span>
+          </div>
 
-            <p className="text-sm text-foreground leading-relaxed mb-4">
-              {ticket.description}
-            </p>
+          <p className="text-xs text-foreground leading-snug">
+            {ticket.description}
+          </p>
 
-            <div className="flex gap-2 flex-wrap mb-4">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex gap-1.5 flex-wrap">
               {ticket.tags.map((tag) => (
                 <span
                   key={tag}
-                  className={`text-[10px] font-semibold uppercase tracking-wider border rounded-sm px-2 py-0.5 ${getTagColor(tag)}`}
+                  className={`text-[9px] font-semibold uppercase tracking-wider border rounded-sm px-1.5 py-px ${getTagColor(tag)}`}
                 >
                   {tag}
                 </span>
               ))}
             </div>
+            <span className="flex items-center gap-1 text-[10px] text-muted-foreground shrink-0">
+              <Info className="h-3 w-3" />
+              <span className="font-medium text-foreground">{ticket.source}</span>
+            </span>
           </div>
 
-          <div className="flex items-center justify-between pt-3 border-t border-border">
-            <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-              <Info className="h-3.5 w-3.5" />
-              Source: <span className="font-semibold text-foreground">{ticket.source}</span>
-            </span>
-            <button className="text-xs font-medium text-trusted hover:underline flex items-center gap-1">
+          <div className="flex justify-end">
+            <button className="text-[10px] font-medium text-trusted hover:underline flex items-center gap-1">
               View Details
-              <ExternalLink className="h-3 w-3" />
+              <ExternalLink className="h-2.5 w-2.5" />
             </button>
           </div>
         </div>
