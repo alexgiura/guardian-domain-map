@@ -42,24 +42,22 @@ const TicketList = ({ tickets }: TicketListProps) => {
             {ticket.description}
           </p>
 
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex gap-1.5 flex-wrap">
-              {ticket.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className={`text-[9px] font-semibold uppercase tracking-wider border rounded-sm px-1.5 py-px ${getTagColor(tag)}`}
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-            <span className="flex items-center gap-1 text-[10px] text-muted-foreground shrink-0">
+          <div className="flex gap-1.5 flex-wrap">
+            {ticket.tags.map((tag) => (
+              <span
+                key={tag}
+                className={`text-[9px] font-semibold uppercase tracking-wider border rounded-sm px-1.5 py-px ${getTagColor(tag)}`}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          <div className="flex items-center justify-between pt-2 border-t border-border">
+            <span className="flex items-center gap-1 text-[10px] text-muted-foreground">
               <Info className="h-3 w-3" />
               <span className="font-medium text-foreground">{ticket.source}</span>
             </span>
-          </div>
-
-          <div className="flex justify-end">
             <button className="text-[10px] font-medium text-trusted hover:underline flex items-center gap-1">
               View Details
               <ExternalLink className="h-2.5 w-2.5" />
