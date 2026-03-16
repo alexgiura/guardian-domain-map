@@ -101,7 +101,7 @@ export const mockDomains: Domain[] = [
     id: "DOM-008",
     value: "45.33.32.156",
     type: "IP",
-    status: "blacklist",
+    status: "threat",
     country: "IR",
     addedDate: "2026-03-12",
     tickets: [
