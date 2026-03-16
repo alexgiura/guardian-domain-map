@@ -19,7 +19,7 @@ const TicketList = ({ tickets }: TicketListProps) => {
       {tickets.map((ticket) => (
         <div
           key={ticket.ticketId}
-          className="grid grid-cols-[80px_1fr_auto_100px_100px] gap-2 items-center px-3 py-2 rounded-sm hover:bg-card transition-colors text-sm"
+          className="grid grid-cols-[80px_1fr_200px_100px_100px] gap-2 items-center px-3 py-2 rounded-sm hover:bg-card transition-colors text-sm"
         >
           <span className="font-mono text-xs text-muted-foreground">{ticket.ticketId}</span>
           <span className="text-foreground truncate pr-4">{ticket.description}</span>
