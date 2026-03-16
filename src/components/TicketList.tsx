@@ -39,9 +39,6 @@ const TicketList = ({ tickets }: TicketListProps) => {
               </span>
             </div>
 
-            <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
-              Description
-            </p>
             <p className="text-sm text-foreground leading-relaxed mb-4">
               {ticket.description}
             </p>
