@@ -68,7 +68,7 @@ export const mockDomains: Domain[] = [
     id: "DOM-005",
     value: "cdn-provider.com",
     type: "Domain",
-    status: "whitelist",
+    status: "trusted",
     country: "US",
     addedDate: "2026-03-08",
     tickets: [
