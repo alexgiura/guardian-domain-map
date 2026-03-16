@@ -39,6 +39,14 @@ export default {
           DEFAULT: "hsl(var(--success))",
           foreground: "hsl(var(--success-foreground))",
         },
+        threat: {
+          DEFAULT: "hsl(var(--threat))",
+          foreground: "hsl(var(--threat-foreground))",
+        },
+        trusted: {
+          DEFAULT: "hsl(var(--trusted))",
+          foreground: "hsl(var(--trusted-foreground))",
+        },
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",

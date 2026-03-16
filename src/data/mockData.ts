@@ -10,7 +10,7 @@ export interface Domain {
   id: string;
   value: string;
   type: "IP" | "Domain";
-  status: "whitelist" | "blacklist";
+  status: "threat" | "trusted";
   country?: string;
   addedDate: string;
   tickets: Ticket[];
