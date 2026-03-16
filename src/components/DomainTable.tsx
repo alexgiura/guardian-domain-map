@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Search } from "lucide-react";
+import { Search, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import DomainRow from "./DomainRow";
+import AddDomainDialog from "./AddDomainDialog";
 import { mockDomains, type Domain } from "@/data/mockData";
 
 type FilterTab = "all" | "blacklist" | "whitelist";
@@ -10,6 +12,11 @@ const DomainTable = () => {
   const [domains, setDomains] = useState<Domain[]>(mockDomains);
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState<FilterTab>("all");
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const addDomain = (domain: Domain) => {
+    setDomains((prev) => [domain, ...prev]);
+  };
 
   const setStatus = (id: string, status: "whitelist" | "blacklist") => {
     setDomains((prev) =>
@@ -37,21 +44,27 @@ const DomainTable = () => {
   return (
     <div className="flex flex-col gap-3">
       {/* Tabs outside the card */}
-      <div className="flex gap-1">
-        {tabs.map((tab) => (
-          <button
-            key={tab.key}
-            onClick={() => setActiveFilter(tab.key)}
-            className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
-              activeFilter === tab.key
-                ? "bg-primary text-primary-foreground"
-                : "text-muted-foreground hover:bg-muted"
-            }`}
-          >
-            {tab.label}
-            <span className="ml-1.5 text-xs opacity-70">{tab.count}</span>
-          </button>
-        ))}
+      <div className="flex items-center justify-between">
+        <div className="flex gap-1">
+          {tabs.map((tab) => (
+            <button
+              key={tab.key}
+              onClick={() => setActiveFilter(tab.key)}
+              className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                activeFilter === tab.key
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:bg-muted"
+              }`}
+            >
+              {tab.label}
+              <span className="ml-1.5 text-xs opacity-70">{tab.count}</span>
+            </button>
+          ))}
+        </div>
+        <Button size="sm" onClick={() => setDialogOpen(true)}>
+          <Plus className="h-4 w-4" />
+          Adaugă
+        </Button>
       </div>
 
       <div className="bg-card rounded-lg border border-border overflow-hidden">
@@ -88,6 +101,12 @@ const DomainTable = () => {
           ))
         )}
       </div>
+
+      <AddDomainDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        onAdd={addDomain}
+      />
     </div>
   );
 };
