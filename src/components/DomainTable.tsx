@@ -12,6 +12,11 @@ const DomainTable = () => {
   const [domains, setDomains] = useState<Domain[]>(mockDomains);
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState<FilterTab>("all");
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const addDomain = (domain: Domain) => {
+    setDomains((prev) => [domain, ...prev]);
+  };
 
   const setStatus = (id: string, status: "whitelist" | "blacklist") => {
     setDomains((prev) =>
