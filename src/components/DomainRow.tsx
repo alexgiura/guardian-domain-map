@@ -31,7 +31,7 @@ const DomainRow = ({ domain, onSetStatus }: DomainRowProps) => {
             {expanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
           </span>
           {domain.type === "IP" ? <Server className="h-3.5 w-3.5 text-muted-foreground" /> : <Globe className="h-3.5 w-3.5 text-muted-foreground" />}
-          <span className="font-mono text-sm">{domain.value}</span>
+          <span className="font-mono text-xs">{domain.value}</span>
         </span>
 
         <Badge variant="outline" className="w-16 justify-center text-[10px] uppercase">
