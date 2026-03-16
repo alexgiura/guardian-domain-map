@@ -90,7 +90,7 @@ export const mockDomains: Domain[] = [
     id: "DOM-007",
     value: "dark-market.onion.ly",
     type: "Domain",
-    status: "blacklist",
+    status: "threat",
     country: "UA",
     addedDate: "2026-03-11",
     tickets: [
