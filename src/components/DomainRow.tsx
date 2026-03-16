@@ -46,7 +46,7 @@ const DomainRow = ({ domain, onSetStatus }: DomainRowProps) => {
           {domain.tickets.length}
         </span>
 
-        <span onClick={(e) => e.stopPropagation()}>
+        <span className="flex justify-center" onClick={(e) => e.stopPropagation()}>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="h-8 w-8">
