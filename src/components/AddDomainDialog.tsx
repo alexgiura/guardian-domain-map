@@ -61,7 +61,7 @@ const AddDomainDialog = ({ open, onOpenChange, onAdd }: AddDomainDialogProps) =>
       value: value.trim(),
       type: isIP ? "IP" : "Domain",
       status: "threat",
-      tickets: [
+      addedDate: new Date().toISOString().split("T")[0],
         {
           ticketId: `TK-${Date.now()}`,
           description: description.trim(),
