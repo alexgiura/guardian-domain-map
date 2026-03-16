@@ -6,7 +6,7 @@ import DomainRow from "./DomainRow";
 import AddDomainDialog from "./AddDomainDialog";
 import { mockDomains, type Domain } from "@/data/mockData";
 
-type FilterTab = "all" | "blacklist" | "whitelist";
+type FilterTab = "all" | "threat" | "trusted";
 
 const DomainTable = () => {
   const [domains, setDomains] = useState<Domain[]>(mockDomains);
@@ -18,7 +18,7 @@ const DomainTable = () => {
     setDomains((prev) => [domain, ...prev]);
   };
 
-  const setStatus = (id: string, status: "whitelist" | "blacklist") => {
+  const setStatus = (id: string, status: "threat" | "trusted") => {
     setDomains((prev) =>
       prev.map((d) => (d.id === id ? { ...d, status } : d))
     );
@@ -32,18 +32,17 @@ const DomainTable = () => {
     return matchesSearch && matchesFilter;
   });
 
-  const blacklistCount = domains.filter((d) => d.status === "blacklist").length;
-  const whitelistCount = domains.filter((d) => d.status === "whitelist").length;
+  const threatCount = domains.filter((d) => d.status === "threat").length;
+  const trustedCount = domains.filter((d) => d.status === "trusted").length;
 
   const tabs: { key: FilterTab; label: string; count: number }[] = [
     { key: "all", label: "Toate", count: domains.length },
-    { key: "blacklist", label: "Blacklist", count: blacklistCount },
-    { key: "whitelist", label: "Whitelist", count: whitelistCount },
+    { key: "threat", label: "Threat", count: threatCount },
+    { key: "trusted", label: "Trusted", count: trustedCount },
   ];
 
   return (
     <div className="flex flex-col gap-3">
-      {/* Tabs outside the card */}
       <div className="flex items-center justify-between">
         <div className="flex gap-1">
           {tabs.map((tab) => (
@@ -68,7 +67,6 @@ const DomainTable = () => {
       </div>
 
       <div className="bg-card rounded-lg border border-border overflow-hidden">
-        {/* Search row */}
         <div className="flex items-center px-4 py-3 border-b border-border">
           <div className="relative w-64">
             <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -81,7 +79,6 @@ const DomainTable = () => {
           </div>
         </div>
 
-        {/* Table header */}
         <div className="grid grid-cols-[1fr_80px_100px_80px_44px] gap-4 px-4 py-2.5 text-[10px] uppercase font-semibold text-muted-foreground border-b border-border bg-muted/50">
           <span>Valoare</span>
           <span className="text-center">Tip</span>
@@ -90,7 +87,6 @@ const DomainTable = () => {
           <span className="text-center">Acțiuni</span>
         </div>
 
-        {/* Rows */}
         {filtered.length === 0 ? (
           <div className="px-4 py-8 text-center text-sm text-muted-foreground">
             Niciun domeniu găsit.

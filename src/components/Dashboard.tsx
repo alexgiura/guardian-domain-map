@@ -230,10 +230,10 @@ const Dashboard = () => {
             </span>
             <span className="flex justify-center">
               <Badge
-                variant={d.status === "whitelist" ? "success" : "destructive"}
+                variant={d.status === "trusted" ? "trusted" : "threat"}
                 className="text-[10px] uppercase justify-center"
               >
-                {d.status === "whitelist" ? "Whitelist" : "Blacklist"}
+                {d.status === "trusted" ? "Trusted" : "Threat"}
               </Badge>
             </span>
             <span className="text-xs text-muted-foreground text-center font-medium">

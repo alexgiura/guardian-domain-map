@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown, ChevronRight, Globe, Server, MoreVertical, ShieldCheck, ShieldOff } from "lucide-react";
+import { ChevronDown, ChevronRight, Globe, Server, MoreVertical, ShieldCheck, ShieldAlert } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
@@ -13,12 +13,12 @@ import TicketList from "./TicketList";
 
 interface DomainRowProps {
   domain: Domain;
-  onSetStatus: (id: string, status: "whitelist" | "blacklist") => void;
+  onSetStatus: (id: string, status: "threat" | "trusted") => void;
 }
 
 const DomainRow = ({ domain, onSetStatus }: DomainRowProps) => {
   const [expanded, setExpanded] = useState(false);
-  const isWhitelisted = domain.status === "whitelist";
+  const isTrusted = domain.status === "trusted";
 
   return (
     <div className="border-b border-border last:border-b-0">
@@ -41,8 +41,8 @@ const DomainRow = ({ domain, onSetStatus }: DomainRowProps) => {
         </span>
 
         <span className="flex justify-center">
-          <Badge variant={isWhitelisted ? "success" : "destructive"} className="justify-center text-[10px] uppercase">
-            {isWhitelisted ? "Whitelist" : "Blacklist"}
+          <Badge variant={isTrusted ? "trusted" : "threat"} className="justify-center text-[10px] uppercase">
+            {isTrusted ? "Trusted" : "Threat"}
           </Badge>
         </span>
 
@@ -58,15 +58,15 @@ const DomainRow = ({ domain, onSetStatus }: DomainRowProps) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              {isWhitelisted ? (
-                <DropdownMenuItem onClick={() => onSetStatus(domain.id, "blacklist")}>
-                  <ShieldOff className="h-4 w-4 mr-2 text-destructive" />
-                  Trece pe Blacklist
+              {isTrusted ? (
+                <DropdownMenuItem onClick={() => onSetStatus(domain.id, "threat")}>
+                  <ShieldAlert className="h-4 w-4 mr-2 text-threat" />
+                  Marchează ca Threat
                 </DropdownMenuItem>
               ) : (
-                <DropdownMenuItem onClick={() => onSetStatus(domain.id, "whitelist")}>
-                  <ShieldCheck className="h-4 w-4 mr-2 text-success" />
-                  Trece pe Whitelist
+                <DropdownMenuItem onClick={() => onSetStatus(domain.id, "trusted")}>
+                  <ShieldCheck className="h-4 w-4 mr-2 text-trusted" />
+                  Marchează ca Trusted
                 </DropdownMenuItem>
               )}
             </DropdownMenuContent>
