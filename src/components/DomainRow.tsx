@@ -34,13 +34,17 @@ const DomainRow = ({ domain, onSetStatus }: DomainRowProps) => {
           <span className="font-mono text-xs">{domain.value}</span>
         </span>
 
-        <Badge variant="outline" className="w-16 justify-center text-[10px] uppercase">
-          {domain.type}
-        </Badge>
+        <span className="flex justify-center">
+          <Badge variant="outline" className="justify-center text-[10px] uppercase">
+            {domain.type}
+          </Badge>
+        </span>
 
-        <Badge variant={isWhitelisted ? "success" : "destructive"} className="w-20 justify-center text-[10px] uppercase">
-          {isWhitelisted ? "Whitelist" : "Blacklist"}
-        </Badge>
+        <span className="flex justify-center">
+          <Badge variant={isWhitelisted ? "success" : "destructive"} className="justify-center text-[10px] uppercase">
+            {isWhitelisted ? "Whitelist" : "Blacklist"}
+          </Badge>
+        </span>
 
         <span className="text-xs text-muted-foreground text-center">
           {domain.tickets.length}
