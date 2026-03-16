@@ -17,14 +17,14 @@ import {
 } from "recharts";
 
 const Dashboard = () => {
-  const blacklistCount = mockDomains.filter((d) => d.status === "blacklist").length;
-  const whitelistCount = mockDomains.filter((d) => d.status === "whitelist").length;
+  const threatCount = mockDomains.filter((d) => d.status === "threat").length;
+  const trustedCount = mockDomains.filter((d) => d.status === "trusted").length;
   const totalTickets = mockDomains.reduce((sum, d) => sum + d.tickets.length, 0);
 
   const stats = [
     { label: "Total Domenii", value: mockDomains.length, icon: Activity, color: "text-foreground" },
-    { label: "Blacklisted", value: blacklistCount, icon: ShieldAlert, color: "text-destructive" },
-    { label: "Whitelisted", value: whitelistCount, icon: ShieldCheck, color: "text-success" },
+    { label: "Threats", value: threatCount, icon: ShieldAlert, color: "text-threat" },
+    { label: "Trusted", value: trustedCount, icon: ShieldCheck, color: "text-trusted" },
     { label: "Total Raportări", value: totalTickets, icon: AlertTriangle, color: "text-muted-foreground" },
   ];
 
