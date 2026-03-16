@@ -124,7 +124,7 @@ export const mockDomains: Domain[] = [
     id: "DOM-010",
     value: "internal-monitor.local",
     type: "Domain",
-    status: "whitelist",
+    status: "trusted",
     country: "RO",
     addedDate: "2026-03-07",
     tickets: [
