@@ -1,6 +1,6 @@
 import { User } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import dnscLogo from "@/assets/dnsc-logo.webp";
+import dnscLogo from "@/assets/dnsc-logo.svg";
 
 interface TopBarProps {
   activeTab: "dashboard" | "domains";
