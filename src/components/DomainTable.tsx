@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Search } from "lucide-react";
+import { Search, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import DomainRow from "./DomainRow";
+import AddDomainDialog from "./AddDomainDialog";
 import { mockDomains, type Domain } from "@/data/mockData";
 
 type FilterTab = "all" | "blacklist" | "whitelist";
