@@ -4,69 +4,85 @@ import { Input } from "@/components/ui/input";
 import DomainRow from "./DomainRow";
 import { mockDomains, type Domain } from "@/data/mockData";
 
+type FilterTab = "all" | "blacklist" | "whitelist";
+
 const DomainTable = () => {
   const [domains, setDomains] = useState<Domain[]>(mockDomains);
   const [search, setSearch] = useState("");
+  const [activeFilter, setActiveFilter] = useState<FilterTab>("all");
 
-  const toggleStatus = (id: string) => {
+  const setStatus = (id: string, status: "whitelist" | "blacklist") => {
     setDomains((prev) =>
-      prev.map((d) =>
-        d.id === id ? { ...d, status: d.status === "whitelist" ? "blacklist" : "whitelist" } : d
-      )
+      prev.map((d) => (d.id === id ? { ...d, status } : d))
     );
   };
 
-  const filtered = domains.filter(
-    (d) =>
-      d.value.toLowerCase().includes(search.toLowerCase()) ||
-      d.id.toLowerCase().includes(search.toLowerCase())
-  );
+  const filtered = domains.filter((d) => {
+    const matchesSearch =
+      d.value.toLowerCase().includes(search.toLowerCase());
+    const matchesFilter =
+      activeFilter === "all" || d.status === activeFilter;
+    return matchesSearch && matchesFilter;
+  });
 
   const blacklistCount = domains.filter((d) => d.status === "blacklist").length;
   const whitelistCount = domains.filter((d) => d.status === "whitelist").length;
 
-  return (
-    <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <div className="flex gap-4 text-sm">
-          <span className="text-muted-foreground">
-            Total: <span className="font-semibold text-foreground">{domains.length}</span>
-          </span>
-          <span className="text-muted-foreground">
-            Blacklist: <span className="font-semibold text-destructive">{blacklistCount}</span>
-          </span>
-          <span className="text-muted-foreground">
-            Whitelist: <span className="font-semibold text-success">{whitelistCount}</span>
-          </span>
-        </div>
-        <div className="relative w-64">
-          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Caută domeniu sau IP..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pl-9 h-9 text-sm"
-          />
-        </div>
-      </div>
+  const tabs: { key: FilterTab; label: string; count: number }[] = [
+    { key: "all", label: "Toate", count: domains.length },
+    { key: "blacklist", label: "Blacklist", count: blacklistCount },
+    { key: "whitelist", label: "Whitelist", count: whitelistCount },
+  ];
 
-      <div className="bg-card rounded-lg border border-border overflow-hidden">
-        <div className="grid grid-cols-[28px_80px_224px_64px_80px_1fr_44px] gap-4 px-4 py-2.5 text-[10px] uppercase font-semibold text-muted-foreground border-b border-border bg-muted/50">
-          <span></span>
-          <span>ID</span>
+  return (
+    <div className="flex flex-col gap-0">
+      <div className="bg-card rounded-t-lg border border-border overflow-hidden">
+        {/* Tabs + Search row */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-border">
+          <div className="flex gap-1">
+            {tabs.map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveFilter(tab.key)}
+                className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                  activeFilter === tab.key
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:bg-muted"
+                }`}
+              >
+                {tab.label}
+                <span className="ml-1.5 text-xs opacity-70">{tab.count}</span>
+              </button>
+            ))}
+          </div>
+          <div className="relative w-64">
+            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Caută domeniu sau IP..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="pl-9 h-9 text-sm"
+            />
+          </div>
+        </div>
+
+        {/* Table header */}
+        <div className="grid grid-cols-[1fr_80px_100px_80px_44px] gap-4 px-4 py-2.5 text-[10px] uppercase font-semibold text-muted-foreground border-b border-border bg-muted/50">
           <span>Valoare</span>
           <span>Tip</span>
           <span>Status</span>
-          <span>Tickete</span>
-          <span className="text-right">Acțiune</span>
+          <span>Raportări</span>
+          <span className="text-right">Acțiuni</span>
         </div>
+
+        {/* Rows */}
         {filtered.length === 0 ? (
           <div className="px-4 py-8 text-center text-sm text-muted-foreground">
             Niciun domeniu găsit.
           </div>
         ) : (
           filtered.map((domain) => (
-            <DomainRow key={domain.id} domain={domain} onToggleStatus={toggleStatus} />
+            <DomainRow key={domain.id} domain={domain} onSetStatus={setStatus} />
           ))
         )}
       </div>
