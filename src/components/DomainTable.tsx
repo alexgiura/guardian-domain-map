@@ -101,6 +101,12 @@ const DomainTable = () => {
           ))
         )}
       </div>
+
+      <AddDomainDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        onAdd={addDomain}
+      />
     </div>
   );
 };
