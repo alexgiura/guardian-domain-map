@@ -8,7 +8,7 @@ interface TicketListProps {
 
 const TicketList = ({ tickets }: TicketListProps) => {
   return (
-    <div className="p-4 pl-10 grid gap-2">
+    <div className="p-4 pl-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
       {tickets.map((ticket) => (
         <div
           key={ticket.ticketId}
