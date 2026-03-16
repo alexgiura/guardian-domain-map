@@ -1,5 +1,6 @@
-import { Shield, User } from "lucide-react";
+import { User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import dnscLogo from "@/assets/dnsc-logo.webp";
 
 interface TopBarProps {
   activeTab: "dashboard" | "domains";
@@ -10,8 +11,8 @@ const TopBar = ({ activeTab, onTabChange }: TopBarProps) => {
   return (
     <header className="h-16 bg-topbar text-topbar-foreground flex items-center justify-between px-6 shrink-0">
       <div className="flex items-center gap-2">
-        <Shield className="h-6 w-6" />
-        <span className="font-semibold text-sm tracking-wide">CYBER SHIELD</span>
+        <img src={dnscLogo} alt="DNSC" className="h-9 w-9 rounded-full" />
+        <span className="font-semibold text-sm tracking-wide">DNSC</span>
       </div>
 
       <div className="flex bg-topbar-foreground/10 rounded-md p-0.5">
