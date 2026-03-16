@@ -33,6 +33,11 @@
     --success: 160 84% 39%;
     --success-foreground: 0 0% 100%;
 
+    --threat: 0 72% 51%;
+    --threat-foreground: 0 72% 51%;
+    --trusted: 199 89% 48%;
+    --trusted-foreground: 199 89% 48%;
+
     --border: 214 32% 91%;
     --input: 214 32% 91%;
     --ring: 222 47% 11%;

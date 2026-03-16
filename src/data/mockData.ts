@@ -10,7 +10,7 @@ export interface Domain {
   id: string;
   value: string;
   type: "IP" | "Domain";
-  status: "whitelist" | "blacklist";
+  status: "threat" | "trusted";
   country?: string;
   addedDate: string;
   tickets: Ticket[];
@@ -21,7 +21,7 @@ export const mockDomains: Domain[] = [
     id: "DOM-001",
     value: "192.168.1.45",
     type: "IP",
-    status: "blacklist",
+    status: "threat",
     country: "RU",
     addedDate: "2026-03-14",
     tickets: [
@@ -33,7 +33,7 @@ export const mockDomains: Domain[] = [
     id: "DOM-002",
     value: "malicious-site.xyz",
     type: "Domain",
-    status: "blacklist",
+    status: "threat",
     country: "CN",
     addedDate: "2026-03-15",
     tickets: [
@@ -44,7 +44,7 @@ export const mockDomains: Domain[] = [
     id: "DOM-003",
     value: "10.0.0.88",
     type: "IP",
-    status: "whitelist",
+    status: "trusted",
     country: "RO",
     addedDate: "2026-03-10",
     tickets: [
@@ -55,7 +55,7 @@ export const mockDomains: Domain[] = [
     id: "DOM-004",
     value: "suspicious-domain.ru",
     type: "Domain",
-    status: "blacklist",
+    status: "threat",
     country: "RU",
     addedDate: "2026-03-13",
     tickets: [
@@ -68,7 +68,7 @@ export const mockDomains: Domain[] = [
     id: "DOM-005",
     value: "cdn-provider.com",
     type: "Domain",
-    status: "whitelist",
+    status: "trusted",
     country: "US",
     addedDate: "2026-03-08",
     tickets: [
@@ -79,7 +79,7 @@ export const mockDomains: Domain[] = [
     id: "DOM-006",
     value: "172.16.0.12",
     type: "IP",
-    status: "blacklist",
+    status: "threat",
     country: "KP",
     addedDate: "2026-03-14",
     tickets: [
@@ -90,7 +90,7 @@ export const mockDomains: Domain[] = [
     id: "DOM-007",
     value: "dark-market.onion.ly",
     type: "Domain",
-    status: "blacklist",
+    status: "threat",
     country: "UA",
     addedDate: "2026-03-11",
     tickets: [
@@ -101,7 +101,7 @@ export const mockDomains: Domain[] = [
     id: "DOM-008",
     value: "45.33.32.156",
     type: "IP",
-    status: "blacklist",
+    status: "threat",
     country: "IR",
     addedDate: "2026-03-12",
     tickets: [
@@ -113,7 +113,7 @@ export const mockDomains: Domain[] = [
     id: "DOM-009",
     value: "gov-update.info",
     type: "Domain",
-    status: "blacklist",
+    status: "threat",
     country: "CN",
     addedDate: "2026-03-16",
     tickets: [
@@ -124,7 +124,7 @@ export const mockDomains: Domain[] = [
     id: "DOM-010",
     value: "internal-monitor.local",
     type: "Domain",
-    status: "whitelist",
+    status: "trusted",
     country: "RO",
     addedDate: "2026-03-07",
     tickets: [

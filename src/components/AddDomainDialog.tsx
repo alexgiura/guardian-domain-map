@@ -60,7 +60,8 @@ const AddDomainDialog = ({ open, onOpenChange, onAdd }: AddDomainDialogProps) =>
       id: crypto.randomUUID(),
       value: value.trim(),
       type: isIP ? "IP" : "Domain",
-      status: "blacklist",
+      status: "threat",
+      addedDate: new Date().toISOString().split("T")[0],
       tickets: [
         {
           ticketId: `TK-${Date.now()}`,
