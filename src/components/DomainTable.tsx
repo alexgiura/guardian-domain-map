@@ -44,21 +44,27 @@ const DomainTable = () => {
   return (
     <div className="flex flex-col gap-3">
       {/* Tabs outside the card */}
-      <div className="flex gap-1">
-        {tabs.map((tab) => (
-          <button
-            key={tab.key}
-            onClick={() => setActiveFilter(tab.key)}
-            className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
-              activeFilter === tab.key
-                ? "bg-primary text-primary-foreground"
-                : "text-muted-foreground hover:bg-muted"
-            }`}
-          >
-            {tab.label}
-            <span className="ml-1.5 text-xs opacity-70">{tab.count}</span>
-          </button>
-        ))}
+      <div className="flex items-center justify-between">
+        <div className="flex gap-1">
+          {tabs.map((tab) => (
+            <button
+              key={tab.key}
+              onClick={() => setActiveFilter(tab.key)}
+              className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                activeFilter === tab.key
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:bg-muted"
+              }`}
+            >
+              {tab.label}
+              <span className="ml-1.5 text-xs opacity-70">{tab.count}</span>
+            </button>
+          ))}
+        </div>
+        <Button size="sm" onClick={() => setDialogOpen(true)}>
+          <Plus className="h-4 w-4" />
+          Adaugă
+        </Button>
       </div>
 
       <div className="bg-card rounded-lg border border-border overflow-hidden">
