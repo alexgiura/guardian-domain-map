@@ -1,5 +1,6 @@
-import { Shield, User } from "lucide-react";
+import { User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import dnscLogo from "@/assets/dnsc-logo.webp";
 
 interface TopBarProps {
   activeTab: "dashboard" | "domains";
