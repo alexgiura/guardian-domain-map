@@ -35,26 +35,28 @@ const DomainTable = () => {
   ];
 
   return (
-    <div className="flex flex-col gap-0">
-      <div className="bg-card rounded-t-lg border border-border overflow-hidden">
-        {/* Tabs + Search row */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-border">
-          <div className="flex gap-1">
-            {tabs.map((tab) => (
-              <button
-                key={tab.key}
-                onClick={() => setActiveFilter(tab.key)}
-                className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
-                  activeFilter === tab.key
-                    ? "bg-primary text-primary-foreground"
-                    : "text-muted-foreground hover:bg-muted"
-                }`}
-              >
-                {tab.label}
-                <span className="ml-1.5 text-xs opacity-70">{tab.count}</span>
-              </button>
-            ))}
-          </div>
+    <div className="flex flex-col gap-3">
+      {/* Tabs outside the card */}
+      <div className="flex gap-1">
+        {tabs.map((tab) => (
+          <button
+            key={tab.key}
+            onClick={() => setActiveFilter(tab.key)}
+            className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+              activeFilter === tab.key
+                ? "bg-primary text-primary-foreground"
+                : "text-muted-foreground hover:bg-muted"
+            }`}
+          >
+            {tab.label}
+            <span className="ml-1.5 text-xs opacity-70">{tab.count}</span>
+          </button>
+        ))}
+      </div>
+
+      <div className="bg-card rounded-lg border border-border overflow-hidden">
+        {/* Search row */}
+        <div className="flex items-center px-4 py-3 border-b border-border">
           <div className="relative w-64">
             <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
