@@ -18,13 +18,13 @@ const TicketList = ({ tickets }: TicketListProps) => {
             <span className="font-mono text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
               {ticket.ticketId}
             </span>
-            <span className="flex items-center gap-0.5 text-[10px] text-muted-foreground">
-              <CalendarDays className="h-3 w-3" />
-              {ticket.date}
-            </span>
-            <span className="text-[10px] text-muted-foreground flex items-center gap-0.5 ml-auto">
+            <span className="text-[10px] text-muted-foreground flex items-center gap-0.5">
               <ExternalLink className="h-3 w-3" />
               {ticket.source}
+            </span>
+            <span className="flex items-center gap-0.5 text-[10px] text-muted-foreground ml-auto">
+              <CalendarDays className="h-3 w-3" />
+              {ticket.date}
             </span>
           </div>
           <p className="text-sm text-foreground leading-snug mb-2">
