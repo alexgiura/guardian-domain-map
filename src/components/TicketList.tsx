@@ -31,9 +31,9 @@ const TicketList = ({ tickets }: TicketListProps) => {
         >
           <div>
             <div className="flex items-center justify-between mb-4">
-              <Badge variant="outline" className="text-[11px] font-mono px-2.5 py-1 rounded-full">
-                ID: {ticket.ticketId}
-              </Badge>
+              <span className="font-mono text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded-sm">
+                {ticket.ticketId}
+              </span>
               <span className="text-xs text-muted-foreground uppercase tracking-wide">
                 {ticket.date}
               </span>
