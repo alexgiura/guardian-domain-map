@@ -84,10 +84,10 @@ const DomainTable = () => {
         {/* Table header */}
         <div className="grid grid-cols-[1fr_80px_100px_80px_44px] gap-4 px-4 py-2.5 text-[10px] uppercase font-semibold text-muted-foreground border-b border-border bg-muted/50">
           <span>Valoare</span>
-          <span>Tip</span>
-          <span>Status</span>
-          <span>Raportări</span>
-          <span className="text-right">Acțiuni</span>
+          <span className="text-center">Tip</span>
+          <span className="text-center">Status</span>
+          <span className="text-center">Raportări</span>
+          <span className="text-center">Acțiuni</span>
         </div>
 
         {/* Rows */}
