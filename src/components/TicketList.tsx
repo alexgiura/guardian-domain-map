@@ -9,7 +9,7 @@ interface TicketListProps {
 const TicketList = ({ tickets }: TicketListProps) => {
   return (
     <div className="px-4 py-2 pl-14">
-      <div className="grid grid-cols-[80px_1fr_auto_100px_100px] gap-2 text-[10px] uppercase font-semibold text-muted-foreground px-3 py-1.5">
+      <div className="grid grid-cols-[80px_1fr_200px_100px_100px] gap-2 text-[10px] uppercase font-semibold text-muted-foreground px-3 py-1.5">
         <span>Ticket ID</span>
         <span>Descriere</span>
         <span>Etichete</span>
