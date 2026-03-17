@@ -1,4 +1,4 @@
-import { User, Mail, Bell } from "lucide-react";
+import { User, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import dnscLogo from "@/assets/dnsc-logo.svg";
 
