@@ -44,14 +44,6 @@ const TopBar = ({ activeTab, onTabChange }: TopBarProps) => {
           size="icon"
           className="relative rounded-full text-topbar-foreground/60 hover:text-topbar-foreground hover:bg-topbar-foreground/10"
         >
-          <Mail className="h-[18px] w-[18px]" />
-          <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-primary ring-2 ring-topbar" />
-        </Button>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="relative rounded-full text-topbar-foreground/60 hover:text-topbar-foreground hover:bg-topbar-foreground/10"
-        >
           <Bell className="h-[18px] w-[18px]" />
           <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-destructive ring-2 ring-topbar" />
         </Button>
