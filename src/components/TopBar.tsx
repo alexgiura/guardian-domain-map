@@ -15,23 +15,23 @@ const TopBar = ({ activeTab, onTabChange }: TopBarProps) => {
         <span className="font-semibold text-sm tracking-wide">DNSC</span>
       </div>
 
-      <div className="flex bg-topbar-foreground/10 rounded-md p-0.5">
+      <div className="flex gap-1 bg-topbar-foreground/[0.08] rounded-lg p-1 backdrop-blur-sm border border-topbar-foreground/[0.06]">
         <button
           onClick={() => onTabChange("dashboard")}
-          className={`px-4 py-1.5 text-sm font-medium rounded-sm transition-colors ${
+          className={`px-5 py-1.5 text-[13px] font-medium rounded-md transition-all duration-200 ${
             activeTab === "dashboard"
-              ? "bg-topbar-foreground text-topbar"
-              : "text-topbar-foreground/70 hover:text-topbar-foreground"
+              ? "bg-topbar-foreground/95 text-topbar shadow-sm"
+              : "text-topbar-foreground/50 hover:text-topbar-foreground/80 hover:bg-topbar-foreground/[0.06]"
           }`}
         >
           Dashboard
         </button>
         <button
           onClick={() => onTabChange("domains")}
-          className={`px-4 py-1.5 text-sm font-medium rounded-sm transition-colors ${
+          className={`px-5 py-1.5 text-[13px] font-medium rounded-md transition-all duration-200 ${
             activeTab === "domains"
-              ? "bg-topbar-foreground text-topbar"
-              : "text-topbar-foreground/70 hover:text-topbar-foreground"
+              ? "bg-topbar-foreground/95 text-topbar shadow-sm"
+              : "text-topbar-foreground/50 hover:text-topbar-foreground/80 hover:bg-topbar-foreground/[0.06]"
           }`}
         >
           Domenii
