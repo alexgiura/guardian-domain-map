@@ -61,8 +61,8 @@ export const mockWhitelistDomains: WhitelistDomain[] = [
     type: "IP",
     status: "pending",
     requests: [
-      { id: "WR-001", firstName: "Ion", lastName: "Popescu", address: "Str. Victoriei 12, București", phone: "+40 721 123 456", reason: "Server intern folosit pentru monitorizare rețea. A fost identificat eronat ca amenințare.", requestedAt: "2026-03-20 14:32" },
-      { id: "WR-002", firstName: "Maria", lastName: "Ionescu", address: "Bd. Unirii 45, Cluj-Napoca", phone: "+40 744 987 654", reason: "IP utilizat de echipa DevOps pentru deployment automat.", requestedAt: "2026-03-19 09:15" },
+      { id: "WR-001", firstName: "Ion", lastName: "Popescu", email: "ion.popescu@gov.ro", address: "Str. Victoriei 12, București", phone: "+40 721 123 456", reason: "Server intern folosit pentru monitorizare rețea. A fost identificat eronat ca amenințare.", requestedAt: "2026-03-20 14:32" },
+      { id: "WR-002", firstName: "Maria", lastName: "Ionescu", email: "maria.ionescu@corp.ro", address: "Bd. Unirii 45, Cluj-Napoca", phone: "+40 744 987 654", reason: "IP utilizat de echipa DevOps pentru deployment automat.", requestedAt: "2026-03-19 09:15" },
     ],
   },
   {
@@ -71,7 +71,7 @@ export const mockWhitelistDomains: WhitelistDomain[] = [
     type: "Domain",
     status: "approved",
     requests: [
-      { id: "WR-003", firstName: "Andrei", lastName: "Dumitrescu", address: "Str. Libertății 8, Timișoara", phone: "+40 755 222 333", reason: "Furnizor CDN verificat, utilizat pentru servirea conținutului static al platformei interne.", requestedAt: "2026-03-18 11:45" },
+      { id: "WR-003", firstName: "Andrei", lastName: "Dumitrescu", email: "andrei.d@tech.ro", address: "Str. Libertății 8, Timișoara", phone: "+40 755 222 333", reason: "Furnizor CDN verificat, utilizat pentru servirea conținutului static al platformei interne.", requestedAt: "2026-03-18 11:45" },
     ],
   },
   {
@@ -80,7 +80,7 @@ export const mockWhitelistDomains: WhitelistDomain[] = [
     type: "IP",
     status: "rejected",
     requests: [
-      { id: "WR-004", firstName: "Elena", lastName: "Marinescu", address: "Str. Rozelor 3, Iași", phone: "+40 733 444 555", reason: "Solicit whitelistarea pentru acces la serviciul de backup intern.", requestedAt: "2026-03-17 16:20" },
+      { id: "WR-004", firstName: "Elena", lastName: "Marinescu", email: "elena.m@inst.ro", address: "Str. Rozelor 3, Iași", phone: "+40 733 444 555", reason: "Solicit whitelistarea pentru acces la serviciul de backup intern.", requestedAt: "2026-03-17 16:20" },
     ],
   },
   {
@@ -89,9 +89,9 @@ export const mockWhitelistDomains: WhitelistDomain[] = [
     type: "Domain",
     status: "pending",
     requests: [
-      { id: "WR-005", firstName: "Cristian", lastName: "Stanescu", address: "Bd. Republicii 22, Brașov", phone: "+40 766 111 222", reason: "API intern utilizat pentru integrarea cu sistemul ERP. Necesită acces nerestricționat.", requestedAt: "2026-03-21 08:00" },
-      { id: "WR-006", firstName: "Ana", lastName: "Vasilescu", address: "Str. Primăverii 15, Constanța", phone: "+40 722 333 444", reason: "Domeniu intern pentru sincronizarea datelor între departamente.", requestedAt: "2026-03-20 17:30" },
-      { id: "WR-007", firstName: "Bogdan", lastName: "Radu", address: "Str. Independenței 7, Sibiu", phone: "+40 711 555 666", reason: "Folosit de echipa QA pentru testare automată.", requestedAt: "2026-03-19 13:10" },
+      { id: "WR-005", firstName: "Cristian", lastName: "Stanescu", email: "cristian.s@org.ro", address: "Bd. Republicii 22, Brașov", phone: "+40 766 111 222", reason: "API intern utilizat pentru integrarea cu sistemul ERP. Necesită acces nerestricționat.", requestedAt: "2026-03-21 08:00" },
+      { id: "WR-006", firstName: "Ana", lastName: "Vasilescu", email: "ana.v@mail.ro", address: "Str. Primăverii 15, Constanța", phone: "+40 722 333 444", reason: "Domeniu intern pentru sincronizarea datelor între departamente.", requestedAt: "2026-03-20 17:30" },
+      { id: "WR-007", firstName: "Bogdan", lastName: "Radu", email: "bogdan.r@test.ro", address: "Str. Independenței 7, Sibiu", phone: "+40 711 555 666", reason: "Folosit de echipa QA pentru testare automată.", requestedAt: "2026-03-19 13:10" },
     ],
   },
 ];
