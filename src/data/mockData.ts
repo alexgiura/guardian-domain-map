@@ -24,16 +24,26 @@ export interface Domain {
   addedDate: string;
   tickets: Ticket[];
   statusHistory?: StatusChange[];
+  whitelistRequests?: WhitelistRequest[];
 }
 
 export interface WhitelistRequest {
   id: string;
   firstName: string;
   lastName: string;
+  email: string;
   address: string;
   phone: string;
   reason: string;
   requestedAt: string;
+}
+
+export interface WhitelistDomain {
+  id: string;
+  value: string;
+  type: "IP" | "Domain";
+  status: "pending" | "approved" | "rejected";
+  requests: WhitelistRequest[];
 }
 
 export interface WhitelistDomain {
