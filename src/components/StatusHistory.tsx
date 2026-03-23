@@ -16,7 +16,7 @@ const StatusHistory = ({ history }: StatusHistoryProps) => {
   }
 
   return (
-    <div className="px-3 pb-3 pl-10 pt-1">
+    <div className="p-3 pl-10">
       <div className="relative ml-3">
         {/* Vertical line */}
         <div className="absolute left-0 top-2 bottom-2 w-px bg-border" />
