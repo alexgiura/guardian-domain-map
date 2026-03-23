@@ -1,0 +1,48 @@
+import { User, MapPin, Phone, Clock, FileText } from "lucide-react";
+import type { WhitelistRequest } from "@/data/mockData";
+
+interface WhitelistRequestListProps {
+  requests: WhitelistRequest[];
+}
+
+const WhitelistRequestList = ({ requests }: WhitelistRequestListProps) => {
+  return (
+    <div className="p-3 pl-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+      {requests.map((req) => (
+        <div
+          key={req.id}
+          className="bg-card border border-border rounded-md p-3 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between gap-2"
+        >
+          <div className="flex items-center justify-between">
+            <span className="flex items-center gap-1.5 text-xs font-medium text-foreground">
+              <User className="h-3 w-3 text-muted-foreground" />
+              {req.lastName} {req.firstName}
+            </span>
+            <span className="flex items-center gap-1 text-[10px] text-muted-foreground">
+              <Clock className="h-2.5 w-2.5" />
+              {req.requestedAt}
+            </span>
+          </div>
+
+          <p className="text-xs text-foreground leading-snug flex items-start gap-1.5">
+            <FileText className="h-3 w-3 text-muted-foreground shrink-0 mt-0.5" />
+            {req.reason}
+          </p>
+
+          <div className="flex flex-col gap-1 pt-2 border-t border-border">
+            <span className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
+              <MapPin className="h-3 w-3" />
+              {req.address}
+            </span>
+            <span className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
+              <Phone className="h-3 w-3" />
+              {req.phone}
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default WhitelistRequestList;
