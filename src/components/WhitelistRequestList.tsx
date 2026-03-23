@@ -32,7 +32,7 @@ const WhitelistRequestList = ({ requests }: WhitelistRequestListProps) => {
             </span>
           </div>
 
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-2">
             <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
               <Mail className="h-3.5 w-3.5" />
               {req.email}
