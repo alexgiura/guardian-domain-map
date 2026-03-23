@@ -12,13 +12,14 @@ import type { Domain } from "@/data/mockData";
 import TicketList from "./TicketList";
 import StatusHistory from "./StatusHistory";
 import WhitelistRequestList from "./WhitelistRequestList";
+import WhitelistRequestHorizontal from "./WhitelistRequestHorizontal";
 
 interface DomainRowProps {
   domain: Domain;
   onSetStatus: (id: string, status: "threat" | "trusted") => void;
 }
 
-type ExpandedTab = "tickets" | "history" | "whitelist";
+type ExpandedTab = "tickets" | "history" | "whitelist" | "whitelist-h";
 
 const DomainRow = ({ domain, onSetStatus }: DomainRowProps) => {
   const [expanded, setExpanded] = useState(false);
@@ -121,14 +122,29 @@ const DomainRow = ({ domain, onSetStatus }: DomainRowProps) => {
                 <span className="ml-1.5 opacity-70">{whitelistCount}</span>
               )}
             </button>
+            <button
+              onClick={() => setActiveTab("whitelist-h")}
+              className={`px-3 py-1.5 text-[11px] font-medium rounded-md transition-colors ${
+                activeTab === "whitelist-h"
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:bg-muted"
+              }`}
+            >
+              Cereri (Horizontal)
+              {whitelistCount > 0 && (
+                <span className="ml-1.5 opacity-70">{whitelistCount}</span>
+              )}
+            </button>
           </div>
 
           {activeTab === "tickets" ? (
             <TicketList tickets={domain.tickets} />
           ) : activeTab === "history" ? (
             <StatusHistory history={domain.statusHistory || []} />
-          ) : (
+          ) : activeTab === "whitelist" ? (
             <WhitelistRequestList requests={domain.whitelistRequests || []} />
+          ) : (
+            <WhitelistRequestHorizontal requests={domain.whitelistRequests || []} />
           )}
         </div>
       )}
