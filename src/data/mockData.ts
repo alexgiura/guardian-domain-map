@@ -108,6 +108,9 @@ export const mockDomains: Domain[] = [
       { ticketId: "TK-1001", description: "Activitate suspectă detectată pe portul 443", tags: ["malware", "port-scan"], date: "2026-03-14", source: "IDS Sentinel" },
       { ticketId: "TK-1002", description: "Tentativă de brute-force pe SSH", tags: ["brute-force", "ssh"], date: "2026-03-12", source: "Firewall Log" },
     ],
+    whitelistRequests: [
+      { id: "WR-101", firstName: "Ion", lastName: "Popescu", email: "ion.popescu@gov.ro", address: "Str. Victoriei 12, București", phone: "+40 721 123 456", reason: "Server intern folosit pentru monitorizare rețea. A fost identificat eronat ca amenințare.", requestedAt: "2026-03-20 14:32" },
+    ],
   },
   {
     id: "DOM-002",
