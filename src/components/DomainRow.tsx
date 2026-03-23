@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import type { Domain } from "@/data/mockData";
 import TicketList from "./TicketList";
+import StatusHistory from "./StatusHistory";
 
 interface DomainRowProps {
   domain: Domain;
@@ -77,6 +78,7 @@ const DomainRow = ({ domain, onSetStatus }: DomainRowProps) => {
       {expanded && (
         <div className="animate-slide-down bg-muted/30 border-t border-border">
           <TicketList tickets={domain.tickets} />
+          <StatusHistory history={domain.statusHistory || []} />
         </div>
       )}
     </div>

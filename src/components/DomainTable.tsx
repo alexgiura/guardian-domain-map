@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import DomainRow from "./DomainRow";
 import AddDomainDialog from "./AddDomainDialog";
-import { mockDomains, type Domain } from "@/data/mockData";
+import StatusChangeDialog from "./StatusChangeDialog";
+import { mockDomains, type Domain, type StatusChange } from "@/data/mockData";
 
 type FilterTab = "all" | "threat" | "trusted";
 
@@ -13,22 +14,55 @@ const DomainTable = () => {
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState<FilterTab>("all");
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [statusDialog, setStatusDialog] = useState<{
+    domainId: string;
+    domainValue: string;
+    currentStatus: "threat" | "trusted";
+    targetStatus: "threat" | "trusted";
+  } | null>(null);
 
   const addDomain = (domain: Domain) => {
     setDomains((prev) => [domain, ...prev]);
   };
 
-  const setStatus = (id: string, status: "threat" | "trusted") => {
+  const requestStatusChange = (id: string, status: "threat" | "trusted") => {
+    const domain = domains.find((d) => d.id === id);
+    if (!domain) return;
+    setStatusDialog({
+      domainId: id,
+      domainValue: domain.value,
+      currentStatus: domain.status,
+      targetStatus: status,
+    });
+  };
+
+  const confirmStatusChange = (comment: string) => {
+    if (!statusDialog) return;
+    const entry: StatusChange = {
+      id: crypto.randomUUID(),
+      fromStatus: statusDialog.currentStatus,
+      toStatus: statusDialog.targetStatus,
+      comment,
+      changedBy: "Admin User",
+      changedAt: new Date().toISOString().replace("T", " ").slice(0, 16),
+    };
     setDomains((prev) =>
-      prev.map((d) => (d.id === id ? { ...d, status } : d))
+      prev.map((d) =>
+        d.id === statusDialog.domainId
+          ? {
+              ...d,
+              status: statusDialog.targetStatus,
+              statusHistory: [entry, ...(d.statusHistory || [])],
+            }
+          : d
+      )
     );
+    setStatusDialog(null);
   };
 
   const filtered = domains.filter((d) => {
-    const matchesSearch =
-      d.value.toLowerCase().includes(search.toLowerCase());
-    const matchesFilter =
-      activeFilter === "all" || d.status === activeFilter;
+    const matchesSearch = d.value.toLowerCase().includes(search.toLowerCase());
+    const matchesFilter = activeFilter === "all" || d.status === activeFilter;
     return matchesSearch && matchesFilter;
   });
 
@@ -93,16 +127,23 @@ const DomainTable = () => {
           </div>
         ) : (
           filtered.map((domain) => (
-            <DomainRow key={domain.id} domain={domain} onSetStatus={setStatus} />
+            <DomainRow key={domain.id} domain={domain} onSetStatus={requestStatusChange} />
           ))
         )}
       </div>
 
-      <AddDomainDialog
-        open={dialogOpen}
-        onOpenChange={setDialogOpen}
-        onAdd={addDomain}
-      />
+      <AddDomainDialog open={dialogOpen} onOpenChange={setDialogOpen} onAdd={addDomain} />
+
+      {statusDialog && (
+        <StatusChangeDialog
+          open={!!statusDialog}
+          onOpenChange={(open) => !open && setStatusDialog(null)}
+          domainValue={statusDialog.domainValue}
+          currentStatus={statusDialog.currentStatus}
+          targetStatus={statusDialog.targetStatus}
+          onConfirm={confirmStatusChange}
+        />
+      )}
     </div>
   );
 };
