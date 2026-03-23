@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import type { Domain } from "@/data/mockData";
 import TicketList from "./TicketList";
 import StatusHistory from "./StatusHistory";
+import StatusTimelineHorizontal from "./StatusTimelineHorizontal";
 
 interface DomainRowProps {
   domain: Domain;
