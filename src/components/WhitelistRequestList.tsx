@@ -32,12 +32,7 @@ const WhitelistRequestList = ({ requests }: WhitelistRequestListProps) => {
             </span>
           </div>
 
-          <p className="text-xs text-foreground leading-snug flex items-start gap-1.5">
-            <FileText className="h-3 w-3 text-muted-foreground shrink-0 mt-0.5" />
-            {req.reason}
-          </p>
-
-          <div className="flex flex-col gap-1 pt-2 border-t border-border">
+          <div className="flex flex-col gap-1">
             <span className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
               <Mail className="h-3 w-3" />
               {req.email}
@@ -50,6 +45,13 @@ const WhitelistRequestList = ({ requests }: WhitelistRequestListProps) => {
               <MapPin className="h-3 w-3" />
               {req.address}
             </span>
+          </div>
+
+          <div className="pt-2 border-t border-border">
+            <p className="text-xs text-foreground leading-snug flex items-start gap-1.5">
+              <FileText className="h-3 w-3 text-muted-foreground shrink-0 mt-0.5" />
+              {req.reason}
+            </p>
           </div>
         </div>
       ))}
