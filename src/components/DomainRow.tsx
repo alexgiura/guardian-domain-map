@@ -17,9 +17,13 @@ interface DomainRowProps {
   onSetStatus: (id: string, status: "threat" | "trusted") => void;
 }
 
+type ExpandedTab = "tickets" | "history";
+
 const DomainRow = ({ domain, onSetStatus }: DomainRowProps) => {
   const [expanded, setExpanded] = useState(false);
+  const [activeTab, setActiveTab] = useState<ExpandedTab>("tickets");
   const isTrusted = domain.status === "trusted";
+  const historyCount = (domain.statusHistory || []).length;
 
   return (
     <div className="border-b border-border last:border-b-0">
@@ -77,8 +81,38 @@ const DomainRow = ({ domain, onSetStatus }: DomainRowProps) => {
 
       {expanded && (
         <div className="animate-slide-down bg-muted/30 border-t border-border">
-          <TicketList tickets={domain.tickets} />
-          <StatusHistory history={domain.statusHistory || []} />
+          <div className="flex items-center gap-1 px-4 pt-3 pl-10">
+            <button
+              onClick={() => setActiveTab("tickets")}
+              className={`px-3 py-1.5 text-[11px] font-medium rounded-md transition-colors ${
+                activeTab === "tickets"
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:bg-muted"
+              }`}
+            >
+              Raportări
+              <span className="ml-1.5 opacity-70">{domain.tickets.length}</span>
+            </button>
+            <button
+              onClick={() => setActiveTab("history")}
+              className={`px-3 py-1.5 text-[11px] font-medium rounded-md transition-colors ${
+                activeTab === "history"
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:bg-muted"
+              }`}
+            >
+              Istoric Status
+              {historyCount > 0 && (
+                <span className="ml-1.5 opacity-70">{historyCount}</span>
+              )}
+            </button>
+          </div>
+
+          {activeTab === "tickets" ? (
+            <TicketList tickets={domain.tickets} />
+          ) : (
+            <StatusHistory history={domain.statusHistory || []} />
+          )}
         </div>
       )}
     </div>
