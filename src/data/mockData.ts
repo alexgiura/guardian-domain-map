@@ -146,6 +146,10 @@ export const mockDomains: Domain[] = [
       { ticketId: "TK-1006", description: "DNS tunneling activity observed", tags: ["dns-tunnel", "exfiltration"], date: "2026-03-11", source: "DNS Monitor" },
       { ticketId: "TK-1007", description: "Associated with ransomware campaign", tags: ["ransomware"], date: "2026-03-09", source: "CERT Alert" },
     ],
+    whitelistRequests: [
+      { id: "WR-102", firstName: "Maria", lastName: "Ionescu", email: "maria.ionescu@corp.ro", address: "Bd. Unirii 45, Cluj-Napoca", phone: "+40 744 987 654", reason: "Domeniu utilizat intern pentru testare automată.", requestedAt: "2026-03-19 09:15" },
+      { id: "WR-103", firstName: "Andrei", lastName: "Dumitrescu", email: "andrei.d@tech.ro", address: "Str. Libertății 8, Timișoara", phone: "+40 755 222 333", reason: "Folosit de echipa DevOps pentru CI/CD pipeline.", requestedAt: "2026-03-18 11:45" },
+    ],
   },
   {
     id: "DOM-005",
