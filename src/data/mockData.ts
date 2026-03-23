@@ -6,6 +6,15 @@ export interface Ticket {
   source: string;
 }
 
+export interface StatusChange {
+  id: string;
+  fromStatus: "threat" | "trusted";
+  toStatus: "threat" | "trusted";
+  comment: string;
+  changedBy: string;
+  changedAt: string;
+}
+
 export interface Domain {
   id: string;
   value: string;
@@ -14,6 +23,7 @@ export interface Domain {
   country?: string;
   addedDate: string;
   tickets: Ticket[];
+  statusHistory?: StatusChange[];
 }
 
 export const mockDomains: Domain[] = [
