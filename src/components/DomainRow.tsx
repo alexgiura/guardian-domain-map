@@ -12,6 +12,8 @@ import type { Domain } from "@/data/mockData";
 import TicketList from "./TicketList";
 import StatusHistory from "./StatusHistory";
 import WhitelistRequestList from "./WhitelistRequestList";
+import WhitelistRequestHeader from "./WhitelistRequestHeader";
+import WhitelistRequestAvatar from "./WhitelistRequestAvatar";
 
 
 interface DomainRowProps {
