@@ -11,13 +11,14 @@ import { Button } from "@/components/ui/button";
 import type { Domain } from "@/data/mockData";
 import TicketList from "./TicketList";
 import StatusHistory from "./StatusHistory";
+import StatusTimelineHorizontal from "./StatusTimelineHorizontal";
 
 interface DomainRowProps {
   domain: Domain;
   onSetStatus: (id: string, status: "threat" | "trusted") => void;
 }
 
-type ExpandedTab = "tickets" | "history";
+type ExpandedTab = "tickets" | "history" | "timeline";
 
 const DomainRow = ({ domain, onSetStatus }: DomainRowProps) => {
   const [expanded, setExpanded] = useState(false);
@@ -101,7 +102,20 @@ const DomainRow = ({ domain, onSetStatus }: DomainRowProps) => {
                   : "text-muted-foreground hover:bg-muted"
               }`}
             >
-              Istoric Status
+              Istoric Vertical
+              {historyCount > 0 && (
+                <span className="ml-1.5 opacity-70">{historyCount}</span>
+              )}
+            </button>
+            <button
+              onClick={() => setActiveTab("timeline")}
+              className={`px-3 py-1.5 text-[11px] font-medium rounded-md transition-colors ${
+                activeTab === "timeline"
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:bg-muted"
+              }`}
+            >
+              Timeline
               {historyCount > 0 && (
                 <span className="ml-1.5 opacity-70">{historyCount}</span>
               )}
@@ -110,8 +124,10 @@ const DomainRow = ({ domain, onSetStatus }: DomainRowProps) => {
 
           {activeTab === "tickets" ? (
             <TicketList tickets={domain.tickets} />
-          ) : (
+          ) : activeTab === "history" ? (
             <StatusHistory history={domain.statusHistory || []} />
+          ) : (
+            <StatusTimelineHorizontal history={domain.statusHistory || []} />
           )}
         </div>
       )}
