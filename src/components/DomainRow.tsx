@@ -12,6 +12,8 @@ import type { Domain } from "@/data/mockData";
 import TicketList from "./TicketList";
 import StatusHistory from "./StatusHistory";
 import WhitelistRequestList from "./WhitelistRequestList";
+import WhitelistRequestHeader from "./WhitelistRequestHeader";
+import WhitelistRequestAvatar from "./WhitelistRequestAvatar";
 
 
 interface DomainRowProps {
@@ -19,7 +21,7 @@ interface DomainRowProps {
   onSetStatus: (id: string, status: "threat" | "trusted") => void;
 }
 
-type ExpandedTab = "tickets" | "history" | "whitelist";
+type ExpandedTab = "tickets" | "history" | "whitelist" | "whitelist-header" | "whitelist-avatar";
 
 const DomainRow = ({ domain, onSetStatus }: DomainRowProps) => {
   const [expanded, setExpanded] = useState(false);
@@ -122,14 +124,44 @@ const DomainRow = ({ domain, onSetStatus }: DomainRowProps) => {
                 <span className="ml-1.5 opacity-70">{whitelistCount}</span>
               )}
             </button>
+            <button
+              onClick={() => setActiveTab("whitelist-header")}
+              className={`px-3 py-1.5 text-[11px] font-medium rounded-md transition-colors ${
+                activeTab === "whitelist-header"
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:bg-muted"
+              }`}
+            >
+              Cereri (Header)
+              {whitelistCount > 0 && (
+                <span className="ml-1.5 opacity-70">{whitelistCount}</span>
+              )}
+            </button>
+            <button
+              onClick={() => setActiveTab("whitelist-avatar")}
+              className={`px-3 py-1.5 text-[11px] font-medium rounded-md transition-colors ${
+                activeTab === "whitelist-avatar"
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:bg-muted"
+              }`}
+            >
+              Cereri (Avatar)
+              {whitelistCount > 0 && (
+                <span className="ml-1.5 opacity-70">{whitelistCount}</span>
+              )}
+            </button>
           </div>
 
           {activeTab === "tickets" ? (
             <TicketList tickets={domain.tickets} />
           ) : activeTab === "history" ? (
             <StatusHistory history={domain.statusHistory || []} />
-          ) : (
+          ) : activeTab === "whitelist" ? (
             <WhitelistRequestList requests={domain.whitelistRequests || []} />
+          ) : activeTab === "whitelist-header" ? (
+            <WhitelistRequestHeader requests={domain.whitelistRequests || []} />
+          ) : (
+            <WhitelistRequestAvatar requests={domain.whitelistRequests || []} />
           )}
         </div>
       )}
