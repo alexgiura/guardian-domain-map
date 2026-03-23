@@ -23,10 +23,8 @@ export interface Domain {
   country?: string;
   addedDate: string;
   tickets: Ticket[];
-  statusHistory: StatusChange[];
+  statusHistory?: StatusChange[];
 }
-
-const emptyHistory: StatusChange[] = [];
 
 export const mockDomains: Domain[] = [
   {
