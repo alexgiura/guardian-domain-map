@@ -22,11 +22,11 @@ const WhitelistRequestHeader = ({ requests }: WhitelistRequestHeaderProps) => {
           className="bg-card border border-border rounded-md shadow-sm hover:shadow-md transition-shadow flex flex-col overflow-hidden"
         >
           {/* Colored header */}
-          <div className="bg-primary px-3 py-2.5 flex items-center justify-between">
-            <span className="text-xs font-semibold text-primary-foreground">
+          <div className="bg-muted/60 px-3 py-2.5 flex items-center justify-between border-b border-border">
+            <span className="text-xs font-semibold text-foreground">
               {req.lastName} {req.firstName}
             </span>
-            <span className="flex items-center gap-1 text-[10px] text-primary-foreground/70">
+            <span className="flex items-center gap-1 text-[10px] text-muted-foreground">
               <Clock className="h-2.5 w-2.5" />
               {req.requestedAt}
             </span>
