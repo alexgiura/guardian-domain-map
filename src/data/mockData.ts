@@ -26,6 +26,8 @@ export interface Domain {
   statusHistory: StatusChange[];
 }
 
+const emptyHistory: StatusChange[] = [];
+
 export const mockDomains: Domain[] = [
   {
     id: "DOM-001",
