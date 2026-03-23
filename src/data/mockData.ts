@@ -24,16 +24,26 @@ export interface Domain {
   addedDate: string;
   tickets: Ticket[];
   statusHistory?: StatusChange[];
+  whitelistRequests?: WhitelistRequest[];
 }
 
 export interface WhitelistRequest {
   id: string;
   firstName: string;
   lastName: string;
+  email: string;
   address: string;
   phone: string;
   reason: string;
   requestedAt: string;
+}
+
+export interface WhitelistDomain {
+  id: string;
+  value: string;
+  type: "IP" | "Domain";
+  status: "pending" | "approved" | "rejected";
+  requests: WhitelistRequest[];
 }
 
 export interface WhitelistDomain {
@@ -51,8 +61,8 @@ export const mockWhitelistDomains: WhitelistDomain[] = [
     type: "IP",
     status: "pending",
     requests: [
-      { id: "WR-001", firstName: "Ion", lastName: "Popescu", address: "Str. Victoriei 12, București", phone: "+40 721 123 456", reason: "Server intern folosit pentru monitorizare rețea. A fost identificat eronat ca amenințare.", requestedAt: "2026-03-20 14:32" },
-      { id: "WR-002", firstName: "Maria", lastName: "Ionescu", address: "Bd. Unirii 45, Cluj-Napoca", phone: "+40 744 987 654", reason: "IP utilizat de echipa DevOps pentru deployment automat.", requestedAt: "2026-03-19 09:15" },
+      { id: "WR-001", firstName: "Ion", lastName: "Popescu", email: "ion.popescu@gov.ro", address: "Str. Victoriei 12, București", phone: "+40 721 123 456", reason: "Server intern folosit pentru monitorizare rețea. A fost identificat eronat ca amenințare.", requestedAt: "2026-03-20 14:32" },
+      { id: "WR-002", firstName: "Maria", lastName: "Ionescu", email: "maria.ionescu@corp.ro", address: "Bd. Unirii 45, Cluj-Napoca", phone: "+40 744 987 654", reason: "IP utilizat de echipa DevOps pentru deployment automat.", requestedAt: "2026-03-19 09:15" },
     ],
   },
   {
@@ -61,7 +71,7 @@ export const mockWhitelistDomains: WhitelistDomain[] = [
     type: "Domain",
     status: "approved",
     requests: [
-      { id: "WR-003", firstName: "Andrei", lastName: "Dumitrescu", address: "Str. Libertății 8, Timișoara", phone: "+40 755 222 333", reason: "Furnizor CDN verificat, utilizat pentru servirea conținutului static al platformei interne.", requestedAt: "2026-03-18 11:45" },
+      { id: "WR-003", firstName: "Andrei", lastName: "Dumitrescu", email: "andrei.d@tech.ro", address: "Str. Libertății 8, Timișoara", phone: "+40 755 222 333", reason: "Furnizor CDN verificat, utilizat pentru servirea conținutului static al platformei interne.", requestedAt: "2026-03-18 11:45" },
     ],
   },
   {
@@ -70,7 +80,7 @@ export const mockWhitelistDomains: WhitelistDomain[] = [
     type: "IP",
     status: "rejected",
     requests: [
-      { id: "WR-004", firstName: "Elena", lastName: "Marinescu", address: "Str. Rozelor 3, Iași", phone: "+40 733 444 555", reason: "Solicit whitelistarea pentru acces la serviciul de backup intern.", requestedAt: "2026-03-17 16:20" },
+      { id: "WR-004", firstName: "Elena", lastName: "Marinescu", email: "elena.m@inst.ro", address: "Str. Rozelor 3, Iași", phone: "+40 733 444 555", reason: "Solicit whitelistarea pentru acces la serviciul de backup intern.", requestedAt: "2026-03-17 16:20" },
     ],
   },
   {
@@ -79,9 +89,9 @@ export const mockWhitelistDomains: WhitelistDomain[] = [
     type: "Domain",
     status: "pending",
     requests: [
-      { id: "WR-005", firstName: "Cristian", lastName: "Stanescu", address: "Bd. Republicii 22, Brașov", phone: "+40 766 111 222", reason: "API intern utilizat pentru integrarea cu sistemul ERP. Necesită acces nerestricționat.", requestedAt: "2026-03-21 08:00" },
-      { id: "WR-006", firstName: "Ana", lastName: "Vasilescu", address: "Str. Primăverii 15, Constanța", phone: "+40 722 333 444", reason: "Domeniu intern pentru sincronizarea datelor între departamente.", requestedAt: "2026-03-20 17:30" },
-      { id: "WR-007", firstName: "Bogdan", lastName: "Radu", address: "Str. Independenței 7, Sibiu", phone: "+40 711 555 666", reason: "Folosit de echipa QA pentru testare automată.", requestedAt: "2026-03-19 13:10" },
+      { id: "WR-005", firstName: "Cristian", lastName: "Stanescu", email: "cristian.s@org.ro", address: "Bd. Republicii 22, Brașov", phone: "+40 766 111 222", reason: "API intern utilizat pentru integrarea cu sistemul ERP. Necesită acces nerestricționat.", requestedAt: "2026-03-21 08:00" },
+      { id: "WR-006", firstName: "Ana", lastName: "Vasilescu", email: "ana.v@mail.ro", address: "Str. Primăverii 15, Constanța", phone: "+40 722 333 444", reason: "Domeniu intern pentru sincronizarea datelor între departamente.", requestedAt: "2026-03-20 17:30" },
+      { id: "WR-007", firstName: "Bogdan", lastName: "Radu", email: "bogdan.r@test.ro", address: "Str. Independenței 7, Sibiu", phone: "+40 711 555 666", reason: "Folosit de echipa QA pentru testare automată.", requestedAt: "2026-03-19 13:10" },
     ],
   },
 ];
@@ -97,6 +107,9 @@ export const mockDomains: Domain[] = [
     tickets: [
       { ticketId: "TK-1001", description: "Activitate suspectă detectată pe portul 443", tags: ["malware", "port-scan"], date: "2026-03-14", source: "IDS Sentinel" },
       { ticketId: "TK-1002", description: "Tentativă de brute-force pe SSH", tags: ["brute-force", "ssh"], date: "2026-03-12", source: "Firewall Log" },
+    ],
+    whitelistRequests: [
+      { id: "WR-101", firstName: "Ion", lastName: "Popescu", email: "ion.popescu@gov.ro", address: "Str. Victoriei 12, București", phone: "+40 721 123 456", reason: "Server intern folosit pentru monitorizare rețea. A fost identificat eronat ca amenințare.", requestedAt: "2026-03-20 14:32" },
     ],
   },
   {
@@ -132,6 +145,10 @@ export const mockDomains: Domain[] = [
       { ticketId: "TK-1005", description: "C2 server communication detected", tags: ["c2", "apt", "critical"], date: "2026-03-13", source: "Threat Intel" },
       { ticketId: "TK-1006", description: "DNS tunneling activity observed", tags: ["dns-tunnel", "exfiltration"], date: "2026-03-11", source: "DNS Monitor" },
       { ticketId: "TK-1007", description: "Associated with ransomware campaign", tags: ["ransomware"], date: "2026-03-09", source: "CERT Alert" },
+    ],
+    whitelistRequests: [
+      { id: "WR-102", firstName: "Maria", lastName: "Ionescu", email: "maria.ionescu@corp.ro", address: "Bd. Unirii 45, Cluj-Napoca", phone: "+40 744 987 654", reason: "Domeniu utilizat intern pentru testare automată.", requestedAt: "2026-03-19 09:15" },
+      { id: "WR-103", firstName: "Andrei", lastName: "Dumitrescu", email: "andrei.d@tech.ro", address: "Str. Libertății 8, Timișoara", phone: "+40 755 222 333", reason: "Folosit de echipa DevOps pentru CI/CD pipeline.", requestedAt: "2026-03-18 11:45" },
     ],
   },
   {
