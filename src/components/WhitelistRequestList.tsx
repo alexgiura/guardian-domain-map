@@ -1,4 +1,4 @@
-import { User, MapPin, Phone, Clock, FileText } from "lucide-react";
+import { User, MapPin, Phone, Clock, FileText, Mail } from "lucide-react";
 import type { WhitelistRequest } from "@/data/mockData";
 
 interface WhitelistRequestListProps {
@@ -6,6 +6,14 @@ interface WhitelistRequestListProps {
 }
 
 const WhitelistRequestList = ({ requests }: WhitelistRequestListProps) => {
+  if (requests.length === 0) {
+    return (
+      <div className="p-3 pl-10 py-6 text-center text-xs text-muted-foreground">
+        Nicio cerere de whitelistare.
+      </div>
+    );
+  }
+
   return (
     <div className="p-3 pl-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
       {requests.map((req) => (
@@ -31,12 +39,16 @@ const WhitelistRequestList = ({ requests }: WhitelistRequestListProps) => {
 
           <div className="flex flex-col gap-1 pt-2 border-t border-border">
             <span className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
-              <MapPin className="h-3 w-3" />
-              {req.address}
+              <Mail className="h-3 w-3" />
+              {req.email}
             </span>
             <span className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
               <Phone className="h-3 w-3" />
               {req.phone}
+            </span>
+            <span className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
+              <MapPin className="h-3 w-3" />
+              {req.address}
             </span>
           </div>
         </div>

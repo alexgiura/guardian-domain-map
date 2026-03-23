@@ -11,19 +11,21 @@ import { Button } from "@/components/ui/button";
 import type { Domain } from "@/data/mockData";
 import TicketList from "./TicketList";
 import StatusHistory from "./StatusHistory";
+import WhitelistRequestList from "./WhitelistRequestList";
 
 interface DomainRowProps {
   domain: Domain;
   onSetStatus: (id: string, status: "threat" | "trusted") => void;
 }
 
-type ExpandedTab = "tickets" | "history";
+type ExpandedTab = "tickets" | "history" | "whitelist";
 
 const DomainRow = ({ domain, onSetStatus }: DomainRowProps) => {
   const [expanded, setExpanded] = useState(false);
   const [activeTab, setActiveTab] = useState<ExpandedTab>("tickets");
   const isTrusted = domain.status === "trusted";
   const historyCount = (domain.statusHistory || []).length;
+  const whitelistCount = (domain.whitelistRequests || []).length;
 
   return (
     <div className="border-b border-border last:border-b-0">
@@ -106,12 +108,27 @@ const DomainRow = ({ domain, onSetStatus }: DomainRowProps) => {
                 <span className="ml-1.5 opacity-70">{historyCount}</span>
               )}
             </button>
+            <button
+              onClick={() => setActiveTab("whitelist")}
+              className={`px-3 py-1.5 text-[11px] font-medium rounded-md transition-colors ${
+                activeTab === "whitelist"
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:bg-muted"
+              }`}
+            >
+              Cereri Whitelistare
+              {whitelistCount > 0 && (
+                <span className="ml-1.5 opacity-70">{whitelistCount}</span>
+              )}
+            </button>
           </div>
 
           {activeTab === "tickets" ? (
             <TicketList tickets={domain.tickets} />
-          ) : (
+          ) : activeTab === "history" ? (
             <StatusHistory history={domain.statusHistory || []} />
+          ) : (
+            <WhitelistRequestList requests={domain.whitelistRequests || []} />
           )}
         </div>
       )}
