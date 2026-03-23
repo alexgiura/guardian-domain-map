@@ -23,7 +23,7 @@ const WhitelistRequestList = ({ requests }: WhitelistRequestListProps) => {
         >
           <div className="flex items-center justify-between">
             <span className="flex items-center gap-1.5 text-xs font-medium text-foreground">
-              <User className="h-3 w-3 text-muted-foreground" />
+              <User className="h-3.5 w-3.5 text-muted-foreground" />
               {req.lastName} {req.firstName}
             </span>
             <span className="flex items-center gap-1 text-[10px] text-muted-foreground">
@@ -33,16 +33,16 @@ const WhitelistRequestList = ({ requests }: WhitelistRequestListProps) => {
           </div>
 
           <div className="flex flex-col gap-1">
-            <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
-              <Mail className="h-3 w-3" />
+            <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <Mail className="h-3.5 w-3.5" />
               {req.email}
             </span>
-            <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
-              <Phone className="h-3 w-3" />
+            <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <Phone className="h-3.5 w-3.5" />
               {req.phone}
             </span>
-            <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
-              <MapPin className="h-3 w-3" />
+            <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <MapPin className="h-3.5 w-3.5" />
               {req.address}
             </span>
           </div>
