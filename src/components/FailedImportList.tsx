@@ -1,11 +1,11 @@
-import { AlertTriangle, RotateCcw, FileWarning } from "lucide-react";
+import { AlertTriangle, RotateCcw, Clock, Hash, Server } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { FailedImport } from "@/data/mockData";
 
 interface FailedImportListProps {
   imports: FailedImport[];
-  onReimport: (id: string) => void;
+  onReimport: (ticketId: string) => void;
 }
 
 const FailedImportList = ({ imports, onReimport }: FailedImportListProps) => {
@@ -19,54 +19,62 @@ const FailedImportList = ({ imports, onReimport }: FailedImportListProps) => {
 
   return (
     <div className="flex flex-col">
+      {/* Header */}
+      <div className="grid grid-cols-[100px_1fr_1fr_140px_140px_90px] gap-4 px-4 py-2.5 text-[10px] uppercase font-semibold text-muted-foreground border-b border-border bg-muted/50">
+        <span>Ticket ID</span>
+        <span>Sursă</span>
+        <span>Eroare</span>
+        <span>Data ticket</span>
+        <span>Ultima sincr.</span>
+        <span className="text-center">Acțiuni</span>
+      </div>
+
       {imports.map((item) => (
         <div
-          key={item.id}
-          className="flex items-start gap-4 px-4 py-3 border-b border-border last:border-b-0 hover:bg-muted/30 transition-colors"
+          key={item.ticketId}
+          className="grid grid-cols-[100px_1fr_1fr_140px_140px_90px] gap-4 items-center px-4 py-3 border-b border-border last:border-b-0 hover:bg-muted/30 transition-colors"
         >
-          <div className="mt-0.5 flex-shrink-0">
-            <div className="h-8 w-8 rounded-full bg-destructive/10 flex items-center justify-center">
-              <FileWarning className="h-4 w-4 text-destructive" />
-            </div>
+          {/* Ticket ID */}
+          <div className="flex items-center gap-1.5">
+            <Hash className="h-3 w-3 text-muted-foreground flex-shrink-0" />
+            <span className="text-sm font-medium text-foreground">{item.ticketId}</span>
           </div>
 
-          <div className="flex-1 min-w-0 space-y-1.5">
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold text-destructive flex items-center gap-1">
-                <AlertTriangle className="h-3 w-3" />
-                {item.error}
-              </span>
-              <Badge variant="outline" className="text-[10px]">
-                {item.id}
-              </Badge>
-            </div>
-
-            <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-muted-foreground">
-              <span>Sursă: <span className="text-foreground font-medium">{item.source}</span></span>
-              <span>Importat: <span className="text-foreground font-medium">{item.importedAt}</span></span>
-            </div>
-
-            <div className="flex flex-wrap gap-1.5 mt-1">
-              {Object.entries(item.rawData).map(([key, val]) => (
-                <span
-                  key={key}
-                  className="inline-flex items-center gap-1 rounded bg-muted px-2 py-0.5 text-[10px] text-muted-foreground"
-                >
-                  <span className="font-semibold">{key}:</span> {String(val)}
-                </span>
-              ))}
-            </div>
+          {/* Source */}
+          <div className="flex items-center gap-1.5 min-w-0">
+            <Server className="h-3 w-3 text-muted-foreground flex-shrink-0" />
+            <Badge variant="secondary" className="text-[11px] font-mono truncate">
+              {item.source}
+            </Badge>
           </div>
 
-          <Button
-            size="sm"
-            variant="outline"
-            className="flex-shrink-0 text-xs gap-1.5"
-            onClick={() => onReimport(item.id)}
-          >
-            <RotateCcw className="h-3.5 w-3.5" />
-            Reimport
-          </Button>
+          {/* Error */}
+          <div className="flex items-center gap-1.5 min-w-0">
+            <AlertTriangle className="h-3 w-3 text-destructive flex-shrink-0" />
+            <span className="text-xs text-destructive font-medium truncate">{item.errorMessage}</span>
+          </div>
+
+          {/* Date */}
+          <span className="text-xs text-muted-foreground">{item.date}</span>
+
+          {/* Last sync try */}
+          <div className="flex items-center gap-1.5">
+            <Clock className="h-3 w-3 text-muted-foreground flex-shrink-0" />
+            <span className="text-xs text-muted-foreground">{item.lastSyncTry}</span>
+          </div>
+
+          {/* Reimport button */}
+          <div className="flex justify-center">
+            <Button
+              size="sm"
+              variant="outline"
+              className="text-xs gap-1.5 h-7"
+              onClick={() => onReimport(item.ticketId)}
+            >
+              <RotateCcw className="h-3 w-3" />
+              Reimport
+            </Button>
+          </div>
         </div>
       ))}
     </div>
