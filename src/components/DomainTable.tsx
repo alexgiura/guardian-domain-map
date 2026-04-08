@@ -121,22 +121,27 @@ const DomainTable = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-[1fr_80px_100px_80px_44px] gap-4 px-4 py-2.5 text-[10px] uppercase font-semibold text-muted-foreground border-b border-border bg-muted/50">
-          <span className="pl-6">Valoare</span>
-          <span className="text-center">Tip</span>
-          <span className="text-center">Status</span>
-          <span className="text-center">Raportări</span>
-          <span className="text-center">Acțiuni</span>
-        </div>
-
-        {filtered.length === 0 ? (
-          <div className="px-4 py-8 text-center text-sm text-muted-foreground">
-            Niciun domeniu găsit.
-          </div>
+        {activeFilter === "failed" ? (
+          <FailedImportList imports={failedImports} onReimport={handleReimport} />
         ) : (
-          filtered.map((domain) => (
-            <DomainRow key={domain.id} domain={domain} onSetStatus={requestStatusChange} />
-          ))
+          <>
+            <div className="grid grid-cols-[1fr_80px_100px_80px_44px] gap-4 px-4 py-2.5 text-[10px] uppercase font-semibold text-muted-foreground border-b border-border bg-muted/50">
+              <span className="pl-6">Valoare</span>
+              <span className="text-center">Tip</span>
+              <span className="text-center">Status</span>
+              <span className="text-center">Raportări</span>
+              <span className="text-center">Acțiuni</span>
+            </div>
+            {filtered.length === 0 ? (
+              <div className="px-4 py-8 text-center text-sm text-muted-foreground">
+                Niciun domeniu găsit.
+              </div>
+            ) : (
+              filtered.map((domain) => (
+                <DomainRow key={domain.id} domain={domain} onSetStatus={requestStatusChange} />
+              ))
+            )}
+          </>
         )}
       </div>
 
