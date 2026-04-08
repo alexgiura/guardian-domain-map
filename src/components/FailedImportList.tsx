@@ -1,5 +1,4 @@
 import { AlertTriangle, RotateCcw } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import type { FailedImport } from "@/data/mockData";
 
 interface FailedImportListProps {
@@ -18,10 +17,11 @@ const FailedImportList = ({ imports, onReimport }: FailedImportListProps) => {
 
   return (
     <div className="flex flex-col">
-      <div className="grid grid-cols-[80px_120px_1fr_150px_44px] gap-4 px-4 py-2.5 text-[10px] uppercase font-semibold text-muted-foreground border-b border-border bg-muted/50">
+      <div className="grid grid-cols-[80px_130px_1fr_140px_140px_44px] gap-4 px-4 py-2.5 text-[10px] uppercase font-semibold text-muted-foreground border-b border-border bg-muted/50">
         <span>Ticket ID</span>
         <span>Sursă</span>
         <span>Eroare</span>
+        <span>Data ticket</span>
         <span>Ultima sincr.</span>
         <span className="text-center">Acțiuni</span>
       </div>
@@ -29,7 +29,7 @@ const FailedImportList = ({ imports, onReimport }: FailedImportListProps) => {
       {imports.map((item) => (
         <div
           key={item.ticketId}
-          className="grid grid-cols-[80px_120px_1fr_150px_44px] gap-4 items-center px-4 py-2.5 border-b border-border last:border-b-0 hover:bg-muted/30 transition-colors"
+          className="grid grid-cols-[80px_130px_1fr_140px_140px_44px] gap-4 items-center px-4 py-2.5 border-b border-border last:border-b-0 hover:bg-muted/30 transition-colors"
         >
           <span className="text-sm font-medium text-foreground">{item.ticketId}</span>
 
@@ -39,6 +39,8 @@ const FailedImportList = ({ imports, onReimport }: FailedImportListProps) => {
             <AlertTriangle className="h-3 w-3 flex-shrink-0" />
             {item.errorMessage}
           </span>
+
+          <span className="text-xs text-muted-foreground">{item.date}</span>
 
           <span className="text-xs text-muted-foreground">{item.lastSyncTry}</span>
 
