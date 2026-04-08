@@ -93,8 +93,12 @@ const DomainTable = () => {
               onClick={() => setActiveFilter(tab.key)}
               className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
                 activeFilter === tab.key
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:bg-muted"
+                  ? tab.key === "failed"
+                    ? "bg-destructive text-destructive-foreground"
+                    : "bg-primary text-primary-foreground"
+                  : tab.key === "failed" && tab.count > 0
+                    ? "text-destructive hover:bg-destructive/10"
+                    : "text-muted-foreground hover:bg-muted"
               }`}
             >
               {tab.label}
