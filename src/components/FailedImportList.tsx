@@ -1,5 +1,4 @@
-import { AlertTriangle, RotateCcw, Clock, Hash, Server } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { AlertTriangle, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { FailedImport } from "@/data/mockData";
 
@@ -19,12 +18,10 @@ const FailedImportList = ({ imports, onReimport }: FailedImportListProps) => {
 
   return (
     <div className="flex flex-col">
-      {/* Header */}
-      <div className="grid grid-cols-[100px_1fr_1fr_140px_140px_90px] gap-4 px-4 py-2.5 text-[10px] uppercase font-semibold text-muted-foreground border-b border-border bg-muted/50">
+      <div className="grid grid-cols-[80px_120px_1fr_150px_44px] gap-4 px-4 py-2.5 text-[10px] uppercase font-semibold text-muted-foreground border-b border-border bg-muted/50">
         <span>Ticket ID</span>
         <span>Sursă</span>
         <span>Eroare</span>
-        <span>Data ticket</span>
         <span>Ultima sincr.</span>
         <span className="text-center">Acțiuni</span>
       </div>
@@ -32,48 +29,27 @@ const FailedImportList = ({ imports, onReimport }: FailedImportListProps) => {
       {imports.map((item) => (
         <div
           key={item.ticketId}
-          className="grid grid-cols-[100px_1fr_1fr_140px_140px_90px] gap-4 items-center px-4 py-3 border-b border-border last:border-b-0 hover:bg-muted/30 transition-colors"
+          className="grid grid-cols-[80px_120px_1fr_150px_44px] gap-4 items-center px-4 py-2.5 border-b border-border last:border-b-0 hover:bg-muted/30 transition-colors"
         >
-          {/* Ticket ID */}
-          <div className="flex items-center gap-1.5">
-            <Hash className="h-3 w-3 text-muted-foreground flex-shrink-0" />
-            <span className="text-sm font-medium text-foreground">{item.ticketId}</span>
-          </div>
+          <span className="text-sm font-medium text-foreground">{item.ticketId}</span>
 
-          {/* Source */}
-          <div className="flex items-center gap-1.5 min-w-0">
-            <Server className="h-3 w-3 text-muted-foreground flex-shrink-0" />
-            <Badge variant="secondary" className="text-[11px] font-mono truncate">
-              {item.source}
-            </Badge>
-          </div>
+          <span className="text-xs text-muted-foreground truncate">{item.source}</span>
 
-          {/* Error */}
-          <div className="flex items-center gap-1.5 min-w-0">
-            <AlertTriangle className="h-3 w-3 text-destructive flex-shrink-0" />
-            <span className="text-xs text-destructive font-medium truncate">{item.errorMessage}</span>
-          </div>
+          <span className="text-xs font-semibold text-destructive flex items-center gap-1.5">
+            <AlertTriangle className="h-3 w-3 flex-shrink-0" />
+            {item.errorMessage}
+          </span>
 
-          {/* Date */}
-          <span className="text-xs text-muted-foreground">{item.date}</span>
+          <span className="text-xs text-muted-foreground">{item.lastSyncTry}</span>
 
-          {/* Last sync try */}
-          <div className="flex items-center gap-1.5">
-            <Clock className="h-3 w-3 text-muted-foreground flex-shrink-0" />
-            <span className="text-xs text-muted-foreground">{item.lastSyncTry}</span>
-          </div>
-
-          {/* Reimport button */}
           <div className="flex justify-center">
-            <Button
-              size="sm"
-              variant="outline"
-              className="text-xs gap-1.5 h-7"
+            <button
               onClick={() => onReimport(item.ticketId)}
+              className="h-7 w-7 inline-flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              title="Reimport"
             >
-              <RotateCcw className="h-3 w-3" />
-              Reimport
-            </Button>
+              <RotateCcw className="h-3.5 w-3.5" />
+            </button>
           </div>
         </div>
       ))}
