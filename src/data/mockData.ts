@@ -46,13 +46,37 @@ export interface WhitelistDomain {
   requests: WhitelistRequest[];
 }
 
-export interface WhitelistDomain {
+export interface FailedImport {
   id: string;
-  value: string;
-  type: "IP" | "Domain";
-  status: "pending" | "approved" | "rejected";
-  requests: WhitelistRequest[];
+  rawData: Record<string, string>;
+  source: string;
+  importedAt: string;
+  error: string;
 }
+
+export const mockFailedImports: FailedImport[] = [
+  {
+    id: "FI-001",
+    rawData: { type: "IP", status: "threat", source: "IDS Sentinel", description: "Port scan detectat pe rețea internă" },
+    source: "CSV Import - batch_2026-03-20.csv",
+    importedAt: "2026-03-20 10:15",
+    error: "Câmpul 'Valoare' lipsește",
+  },
+  {
+    id: "FI-002",
+    rawData: { type: "Domain", status: "threat", source: "CERT Alert", description: "Tentativă phishing raportată de utilizatori" },
+    source: "API Import - feed_threat_intel",
+    importedAt: "2026-03-19 14:30",
+    error: "Câmpul 'Valoare' lipsește",
+  },
+  {
+    id: "FI-003",
+    rawData: { type: "IP", status: "trusted", source: "Manual Review", description: "Server de backup fără adresă specificată" },
+    source: "CSV Import - batch_2026-03-18.csv",
+    importedAt: "2026-03-18 09:45",
+    error: "Câmpul 'Valoare' lipsește",
+  },
+];
 
 export const mockWhitelistDomains: WhitelistDomain[] = [
   {
