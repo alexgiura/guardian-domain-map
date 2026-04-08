@@ -5,12 +5,14 @@ import { Button } from "@/components/ui/button";
 import DomainRow from "./DomainRow";
 import AddDomainDialog from "./AddDomainDialog";
 import StatusChangeDialog from "./StatusChangeDialog";
-import { mockDomains, type Domain, type StatusChange } from "@/data/mockData";
+import FailedImportList from "./FailedImportList";
+import { mockDomains, mockFailedImports, type Domain, type StatusChange, type FailedImport } from "@/data/mockData";
 
-type FilterTab = "all" | "threat" | "trusted";
+type FilterTab = "all" | "threat" | "trusted" | "failed";
 
 const DomainTable = () => {
   const [domains, setDomains] = useState<Domain[]>(mockDomains);
+  const [failedImports, setFailedImports] = useState<FailedImport[]>(mockFailedImports);
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState<FilterTab>("all");
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -69,10 +71,16 @@ const DomainTable = () => {
   const threatCount = domains.filter((d) => d.status === "threat").length;
   const trustedCount = domains.filter((d) => d.status === "trusted").length;
 
+  const handleReimport = (id: string) => {
+    // TODO: open reimport dialog or process
+    console.log("Reimport:", id);
+  };
+
   const tabs: { key: FilterTab; label: string; count: number }[] = [
     { key: "all", label: "Toate", count: domains.length },
     { key: "threat", label: "Threat", count: threatCount },
     { key: "trusted", label: "Trusted", count: trustedCount },
+    { key: "failed", label: "Erori Import", count: failedImports.length },
   ];
 
   return (
@@ -85,8 +93,12 @@ const DomainTable = () => {
               onClick={() => setActiveFilter(tab.key)}
               className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
                 activeFilter === tab.key
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:bg-muted"
+                  ? tab.key === "failed"
+                    ? "bg-destructive text-destructive-foreground"
+                    : "bg-primary text-primary-foreground"
+                  : tab.key === "failed" && tab.count > 0
+                    ? "text-destructive hover:bg-destructive/10"
+                    : "text-muted-foreground hover:bg-muted"
               }`}
             >
               {tab.label}
@@ -113,22 +125,27 @@ const DomainTable = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-[1fr_80px_100px_80px_44px] gap-4 px-4 py-2.5 text-[10px] uppercase font-semibold text-muted-foreground border-b border-border bg-muted/50">
-          <span className="pl-6">Valoare</span>
-          <span className="text-center">Tip</span>
-          <span className="text-center">Status</span>
-          <span className="text-center">Raportări</span>
-          <span className="text-center">Acțiuni</span>
-        </div>
-
-        {filtered.length === 0 ? (
-          <div className="px-4 py-8 text-center text-sm text-muted-foreground">
-            Niciun domeniu găsit.
-          </div>
+        {activeFilter === "failed" ? (
+          <FailedImportList imports={failedImports} onReimport={handleReimport} />
         ) : (
-          filtered.map((domain) => (
-            <DomainRow key={domain.id} domain={domain} onSetStatus={requestStatusChange} />
-          ))
+          <>
+            <div className="grid grid-cols-[1fr_80px_100px_80px_44px] gap-4 px-4 py-2.5 text-[10px] uppercase font-semibold text-muted-foreground border-b border-border bg-muted/50">
+              <span className="pl-6">Valoare</span>
+              <span className="text-center">Tip</span>
+              <span className="text-center">Status</span>
+              <span className="text-center">Raportări</span>
+              <span className="text-center">Acțiuni</span>
+            </div>
+            {filtered.length === 0 ? (
+              <div className="px-4 py-8 text-center text-sm text-muted-foreground">
+                Niciun domeniu găsit.
+              </div>
+            ) : (
+              filtered.map((domain) => (
+                <DomainRow key={domain.id} domain={domain} onSetStatus={requestStatusChange} />
+              ))
+            )}
+          </>
         )}
       </div>
 
