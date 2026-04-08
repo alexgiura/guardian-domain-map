@@ -52,7 +52,7 @@ const FailedImportList = ({ imports, onReimport }: FailedImportListProps) => {
                   key={key}
                   className="inline-flex items-center gap-1 rounded bg-muted px-2 py-0.5 text-[10px] text-muted-foreground"
                 >
-                  <span className="font-semibold">{key}:</span> {val}
+                  <span className="font-semibold">{key}:</span> {String(val)}
                 </span>
               ))}
             </div>

@@ -5,9 +5,10 @@ import { Button } from "@/components/ui/button";
 import DomainRow from "./DomainRow";
 import AddDomainDialog from "./AddDomainDialog";
 import StatusChangeDialog from "./StatusChangeDialog";
-import { mockDomains, type Domain, type StatusChange } from "@/data/mockData";
+import FailedImportList from "./FailedImportList";
+import { mockDomains, mockFailedImports, type Domain, type StatusChange, type FailedImport } from "@/data/mockData";
 
-type FilterTab = "all" | "threat" | "trusted";
+type FilterTab = "all" | "threat" | "trusted" | "failed";
 
 const DomainTable = () => {
   const [domains, setDomains] = useState<Domain[]>(mockDomains);
