@@ -12,6 +12,7 @@ type FilterTab = "all" | "threat" | "trusted" | "failed";
 
 const DomainTable = () => {
   const [domains, setDomains] = useState<Domain[]>(mockDomains);
+  const [failedImports, setFailedImports] = useState<FailedImport[]>(mockFailedImports);
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState<FilterTab>("all");
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -70,10 +71,16 @@ const DomainTable = () => {
   const threatCount = domains.filter((d) => d.status === "threat").length;
   const trustedCount = domains.filter((d) => d.status === "trusted").length;
 
+  const handleReimport = (id: string) => {
+    // TODO: open reimport dialog or process
+    console.log("Reimport:", id);
+  };
+
   const tabs: { key: FilterTab; label: string; count: number }[] = [
     { key: "all", label: "Toate", count: domains.length },
     { key: "threat", label: "Threat", count: threatCount },
     { key: "trusted", label: "Trusted", count: trustedCount },
+    { key: "failed", label: "Erori Import", count: failedImports.length },
   ];
 
   return (
