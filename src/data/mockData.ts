@@ -47,34 +47,34 @@ export interface WhitelistDomain {
 }
 
 export interface FailedImport {
-  id: string;
-  rawData: Record<string, string>;
+  ticketId: string;
   source: string;
-  importedAt: string;
-  error: string;
+  errorMessage: string;
+  date: string;
+  lastSyncTry: string;
 }
 
 export const mockFailedImports: FailedImport[] = [
   {
-    id: "FI-001",
-    rawData: { type: "IP", status: "threat", source: "IDS Sentinel", description: "Port scan detectat pe rețea internă" },
-    source: "CSV Import - batch_2026-03-20.csv",
-    importedAt: "2026-03-20 10:15",
-    error: "Câmpul 'Valoare' lipsește",
+    ticketId: "115312",
+    source: "rtir-play-sync",
+    errorMessage: "missing_ioc_domains",
+    date: "2026-04-08 08:03:45",
+    lastSyncTry: "2026-04-08 08:25:01",
   },
   {
-    id: "FI-002",
-    rawData: { type: "Domain", status: "threat", source: "CERT Alert", description: "Tentativă phishing raportată de utilizatori" },
-    source: "API Import - feed_threat_intel",
-    importedAt: "2026-03-19 14:30",
-    error: "Câmpul 'Valoare' lipsește",
+    ticketId: "115298",
+    source: "rtir-play-sync",
+    errorMessage: "missing_ioc_domains",
+    date: "2026-04-07 14:22:10",
+    lastSyncTry: "2026-04-07 15:01:33",
   },
   {
-    id: "FI-003",
-    rawData: { type: "IP", status: "trusted", source: "Manual Review", description: "Server de backup fără adresă specificată" },
-    source: "CSV Import - batch_2026-03-18.csv",
-    importedAt: "2026-03-18 09:45",
-    error: "Câmpul 'Valoare' lipsește",
+    ticketId: "115287",
+    source: "csv-batch-import",
+    errorMessage: "missing_ioc_domains",
+    date: "2026-04-06 09:45:00",
+    lastSyncTry: "2026-04-06 10:12:45",
   },
 ];
 
