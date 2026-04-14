@@ -1,13 +1,23 @@
-import { User, Bell } from "lucide-react";
+import { User, Bell, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import dnscLogo from "@/assets/dnsc-logo.svg";
 
 interface TopBarProps {
   activeTab: "dashboard" | "domains" | "import";
   onTabChange: (tab: "dashboard" | "domains" | "import") => void;
+  username?: string;
+  onLogout?: () => void;
 }
 
-const TopBar = ({ activeTab, onTabChange }: TopBarProps) => {
+const TopBar = ({ activeTab, onTabChange, username, onLogout }: TopBarProps) => {
   const tabs: { key: "dashboard" | "domains" | "import"; label: string }[] = [
     { key: "dashboard", label: "Dashboard" },
     { key: "domains", label: "Domenii" },
@@ -46,13 +56,30 @@ const TopBar = ({ activeTab, onTabChange }: TopBarProps) => {
           <Bell className="h-[18px] w-[18px]" />
           <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-destructive ring-2 ring-topbar" />
         </Button>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="rounded-full text-topbar-foreground/60 hover:text-topbar-foreground hover:bg-topbar-foreground/10"
-        >
-          <User className="h-[18px] w-[18px]" />
-        </Button>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              className="rounded-full text-topbar-foreground/60 hover:text-topbar-foreground hover:bg-topbar-foreground/10 gap-2 px-3"
+            >
+              <User className="h-[18px] w-[18px]" />
+              {username && (
+                <span className="text-[13px] font-medium text-topbar-foreground/80">{username}</span>
+              )}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuLabel className="text-xs text-muted-foreground">
+              Conectat ca <span className="font-semibold text-foreground">{username}</span>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={onLogout} className="text-destructive focus:text-destructive cursor-pointer">
+              <LogOut className="h-4 w-4 mr-2" />
+              Deconectare
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   );

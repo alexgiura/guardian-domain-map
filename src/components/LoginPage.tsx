@@ -6,7 +6,7 @@ import { Lock, User } from "lucide-react";
 import dnscLogo from "@/assets/dnsc-logo.svg";
 
 interface LoginPageProps {
-  onLogin: () => void;
+  onLogin: (username: string) => void;
 }
 
 const VALID_USER = "admin";
@@ -20,7 +20,7 @@ const LoginPage = ({ onLogin }: LoginPageProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (username === VALID_USER && password === VALID_PASS) {
-      onLogin();
+      onLogin(username);
     } else {
       setError("Utilizator sau parolă incorectă");
     }
