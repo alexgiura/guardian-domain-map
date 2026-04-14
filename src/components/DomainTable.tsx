@@ -119,7 +119,7 @@ const DomainTable = () => {
             <Input
               placeholder="Caută domeniu sau IP..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => handleSearch(e.target.value)}
               className="pl-9 h-9 text-sm"
             />
           </div>
@@ -132,15 +132,60 @@ const DomainTable = () => {
           <span className="text-center">Raportări</span>
           <span className="text-center">Acțiuni</span>
         </div>
-        {filtered.length === 0 ? (
+        {paginatedDomains.length === 0 ? (
           <div className="px-4 py-8 text-center text-sm text-muted-foreground">
             Niciun domeniu găsit.
           </div>
         ) : (
-          filtered.map((domain) => (
+          paginatedDomains.map((domain) => (
             <DomainRow key={domain.id} domain={domain} onSetStatus={requestStatusChange} />
           ))
         )}
+
+        {/* Pagination footer */}
+        <div className="flex items-center justify-between px-4 py-3 border-t border-border bg-muted/30">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <span>Rânduri per pagină:</span>
+            <Select value={String(perPage)} onValueChange={handlePerPage}>
+              <SelectTrigger className="h-8 w-[70px] text-sm">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {[5, 10, 20, 50].map((n) => (
+                  <SelectItem key={n} value={String(n)}>{n}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <span>
+              {filtered.length === 0
+                ? "0 rezultate"
+                : `${(safePage - 1) * perPage + 1}–${Math.min(safePage * perPage, filtered.length)} din ${filtered.length}`}
+            </span>
+            <div className="flex gap-1">
+              <Button
+                variant="outline"
+                size="icon"
+                className="h-8 w-8"
+                disabled={safePage <= 1}
+                onClick={() => setCurrentPage((p) => p - 1)}
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                className="h-8 w-8"
+                disabled={safePage >= totalPages}
+                onClick={() => setCurrentPage((p) => p + 1)}
+              >
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <AddDomainDialog open={dialogOpen} onOpenChange={setDialogOpen} onAdd={addDomain} />
