@@ -94,7 +94,7 @@ const DomainTable = () => {
           {tabs.map((tab) => (
             <button
               key={tab.key}
-              onClick={() => setActiveFilter(tab.key)}
+              onClick={() => handleFilter(tab.key)}
               className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
                 activeFilter === tab.key
                   ? "bg-primary text-primary-foreground"
