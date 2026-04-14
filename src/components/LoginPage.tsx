@@ -31,11 +31,8 @@ const LoginPage = ({ onLogin }: LoginPageProps) => {
       <div className="w-full max-w-sm">
         {/* Logo & Title */}
         <div className="flex flex-col items-center mb-8">
-          <div className="h-20 w-20 rounded-2xl bg-primary shadow-lg flex items-center justify-center mb-4 ring-4 ring-primary/10">
-            <img src={dnscLogo} alt="DNSC" className="h-12 w-12 rounded-lg brightness-0 invert" />
-          </div>
-          <h1 className="text-2xl font-bold text-foreground tracking-tight">DNSC Platform</h1>
-          <p className="text-sm text-muted-foreground mt-1">Autentifică-te pentru a continua</p>
+          <img src={dnscLogo} alt="DNSC" className="h-20 w-20 rounded-full mb-4" />
+          <p className="text-sm text-muted-foreground">Autentifică-te pentru a continua</p>
         </div>
 
         {/* Card */}
