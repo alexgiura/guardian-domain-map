@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import { Lock, User } from "lucide-react";
 import dnscLogo from "@/assets/dnsc-logo.svg";
 
 interface LoginPageProps {
@@ -27,39 +27,67 @@ const LoginPage = ({ onLogin }: LoginPageProps) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <Card className="w-full max-w-sm shadow-lg">
-        <CardHeader className="items-center gap-2 pb-4">
-          <img src={dnscLogo} alt="DNSC" className="h-14 w-14 rounded-full" />
-          <CardTitle className="text-xl font-semibold tracking-tight">DNSC Login</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 via-background to-primary/10">
+      <div className="w-full max-w-sm">
+        {/* Logo & Title */}
+        <div className="flex flex-col items-center mb-8">
+          <div className="h-20 w-20 rounded-2xl bg-primary shadow-lg flex items-center justify-center mb-4 ring-4 ring-primary/10">
+            <img src={dnscLogo} alt="DNSC" className="h-12 w-12 rounded-lg brightness-0 invert" />
+          </div>
+          <h1 className="text-2xl font-bold text-foreground tracking-tight">DNSC Platform</h1>
+          <p className="text-sm text-muted-foreground mt-1">Autentifică-te pentru a continua</p>
+        </div>
+
+        {/* Card */}
+        <div className="bg-card rounded-2xl shadow-xl border border-border/50 p-8">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="username">Utilizator</Label>
-              <Input
-                id="username"
-                value={username}
-                onChange={(e) => { setUsername(e.target.value); setError(""); }}
-                placeholder="Introdu utilizatorul"
-                autoFocus
-              />
+              <Label htmlFor="username" className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                Utilizator
+              </Label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/50" />
+                <Input
+                  id="username"
+                  value={username}
+                  onChange={(e) => { setUsername(e.target.value); setError(""); }}
+                  placeholder="Introdu utilizatorul"
+                  className="pl-10 h-11 rounded-xl bg-muted/30 border-border/50 focus-visible:ring-primary/30"
+                  autoFocus
+                />
+              </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Parolă</Label>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => { setPassword(e.target.value); setError(""); }}
-                placeholder="Introdu parola"
-              />
+              <Label htmlFor="password" className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                Parolă
+              </Label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/50" />
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => { setPassword(e.target.value); setError(""); }}
+                  placeholder="Introdu parola"
+                  className="pl-10 h-11 rounded-xl bg-muted/30 border-border/50 focus-visible:ring-primary/30"
+                />
+              </div>
             </div>
-            {error && <p className="text-sm text-destructive">{error}</p>}
-            <Button type="submit" className="w-full">Autentificare</Button>
+            {error && (
+              <div className="bg-destructive/10 text-destructive text-sm px-3 py-2 rounded-lg text-center">
+                {error}
+              </div>
+            )}
+            <Button type="submit" className="w-full h-11 rounded-xl font-semibold text-sm shadow-md hover:shadow-lg transition-shadow">
+              Autentificare
+            </Button>
           </form>
-        </CardContent>
-      </Card>
+        </div>
+
+        <p className="text-center text-xs text-muted-foreground/60 mt-6">
+          © 2026 DNSC — Directoratul Național de Securitate Cibernetică
+        </p>
+      </div>
     </div>
   );
 };
