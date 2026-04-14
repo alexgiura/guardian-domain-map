@@ -1,6 +1,7 @@
-import { useState } from "react";
-import { Search, Plus } from "lucide-react";
+import { useState, useMemo } from "react";
+import { Search, Plus, ChevronLeft, ChevronRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import DomainRow from "./DomainRow";
 import AddDomainDialog from "./AddDomainDialog";
