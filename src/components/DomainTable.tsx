@@ -14,6 +14,8 @@ const DomainTable = () => {
   const [domains, setDomains] = useState<Domain[]>(mockDomains);
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState<FilterTab>("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [statusDialog, setStatusDialog] = useState<{
     domainId: string;
