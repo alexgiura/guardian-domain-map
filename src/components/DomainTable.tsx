@@ -63,11 +63,20 @@ const DomainTable = () => {
     setStatusDialog(null);
   };
 
-  const filtered = domains.filter((d) => {
+  const filtered = useMemo(() => domains.filter((d) => {
     const matchesSearch = d.value.toLowerCase().includes(search.toLowerCase());
     const matchesFilter = activeFilter === "all" || d.status === activeFilter;
     return matchesSearch && matchesFilter;
-  });
+  }), [domains, search, activeFilter]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
+  const safePage = Math.min(currentPage, totalPages);
+  const paginatedDomains = filtered.slice((safePage - 1) * perPage, safePage * perPage);
+
+  // Reset page when filters change
+  const handleSearch = (val: string) => { setSearch(val); setCurrentPage(1); };
+  const handleFilter = (tab: FilterTab) => { setActiveFilter(tab); setCurrentPage(1); };
+  const handlePerPage = (val: string) => { setPerPage(Number(val)); setCurrentPage(1); };
 
   const threatCount = domains.filter((d) => d.status === "threat").length;
   const trustedCount = domains.filter((d) => d.status === "trusted").length;
