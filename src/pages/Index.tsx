@@ -3,9 +3,15 @@ import TopBar from "@/components/TopBar";
 import DomainTable from "@/components/DomainTable";
 import Dashboard from "@/components/Dashboard";
 import ImportPage from "@/components/ImportPage";
+import LoginPage from "@/components/LoginPage";
 
 const Index = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeTab, setActiveTab] = useState<"dashboard" | "domains" | "import">("domains");
+
+  if (!isLoggedIn) {
+    return <LoginPage onLogin={() => setIsLoggedIn(true)} />;
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
