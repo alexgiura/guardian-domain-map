@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown, ChevronRight, Globe, Server, MoreVertical, ShieldCheck, ShieldAlert } from "lucide-react";
+import { ChevronDown, ChevronRight, Globe, Server, MoreVertical, ShieldCheck, ShieldAlert, Pencil } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
@@ -19,11 +19,12 @@ import WhitelistRequestAvatar from "./WhitelistRequestAvatar";
 interface DomainRowProps {
   domain: Domain;
   onSetStatus: (id: string, status: "threat" | "trusted") => void;
+  onEdit: (domain: Domain) => void;
 }
 
 type ExpandedTab = "tickets" | "history" | "whitelist" | "whitelist-header" | "whitelist-avatar";
 
-const DomainRow = ({ domain, onSetStatus }: DomainRowProps) => {
+const DomainRow = ({ domain, onSetStatus, onEdit }: DomainRowProps) => {
   const [expanded, setExpanded] = useState(false);
   const [activeTab, setActiveTab] = useState<ExpandedTab>("tickets");
   const isTrusted = domain.status === "trusted";
@@ -34,7 +35,7 @@ const DomainRow = ({ domain, onSetStatus }: DomainRowProps) => {
     <div className="border-b border-border last:border-b-0">
       <button
         onClick={() => setExpanded(!expanded)}
-        className="w-full grid grid-cols-[1fr_80px_100px_80px_44px] gap-4 items-center px-4 py-3 hover:bg-muted/50 transition-colors text-left"
+        className="w-full grid grid-cols-[1fr_1fr_80px_100px_80px_44px] gap-4 items-center px-4 py-3 hover:bg-muted/50 transition-colors text-left"
       >
         <span className="flex items-center gap-2">
           <span className="text-muted-foreground">
@@ -42,6 +43,10 @@ const DomainRow = ({ domain, onSetStatus }: DomainRowProps) => {
           </span>
           {domain.type === "IP" ? <Server className="h-3.5 w-3.5 text-muted-foreground" /> : <Globe className="h-3.5 w-3.5 text-muted-foreground" />}
           <span className="font-mono text-xs">{domain.value}</span>
+        </span>
+
+        <span className="text-xs text-muted-foreground truncate" title={domain.description || "—"}>
+          {domain.description || "—"}
         </span>
 
         <span className="flex justify-center">
@@ -68,6 +73,10 @@ const DomainRow = ({ domain, onSetStatus }: DomainRowProps) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => onEdit(domain)}>
+                <Pencil className="h-4 w-4 mr-2" />
+                Editează
+              </DropdownMenuItem>
               {isTrusted ? (
                 <DropdownMenuItem onClick={() => onSetStatus(domain.id, "threat")}>
                   <ShieldAlert className="h-4 w-4 mr-2 text-threat" />

@@ -5,6 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button";
 import DomainRow from "./DomainRow";
 import AddDomainDialog from "./AddDomainDialog";
+import EditDomainDialog from "./EditDomainDialog";
 import StatusChangeDialog from "./StatusChangeDialog";
 import { mockDomains, type Domain, type StatusChange } from "@/data/mockData";
 
@@ -23,6 +24,7 @@ const DomainTable = () => {
     currentStatus: "threat" | "trusted";
     targetStatus: "threat" | "trusted";
   } | null>(null);
+  const [editDomain, setEditDomain] = useState<Domain | null>(null);
 
   const addDomain = (domain: Domain) => {
     setDomains((prev) => [domain, ...prev]);
@@ -61,6 +63,16 @@ const DomainTable = () => {
       )
     );
     setStatusDialog(null);
+  };
+
+  const handleEditSave = (id: string, updates: { description: string; status: "threat" | "trusted" }) => {
+    setDomains((prev) =>
+      prev.map((d) =>
+        d.id === id
+          ? { ...d, description: updates.description, status: updates.status }
+          : d
+      )
+    );
   };
 
   const filtered = useMemo(() => domains.filter((d) => {
@@ -125,8 +137,9 @@ const DomainTable = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-[1fr_80px_100px_80px_44px] gap-4 px-4 py-2.5 text-[10px] uppercase font-semibold text-muted-foreground border-b border-border bg-muted/50">
+        <div className="grid grid-cols-[1fr_1fr_80px_100px_80px_44px] gap-4 px-4 py-2.5 text-[10px] uppercase font-semibold text-muted-foreground border-b border-border bg-muted/50">
           <span className="pl-6">Valoare</span>
+          <span>Descriere</span>
           <span className="text-center">Tip</span>
           <span className="text-center">Status</span>
           <span className="text-center">Raportări</span>
@@ -138,7 +151,7 @@ const DomainTable = () => {
           </div>
         ) : (
           paginatedDomains.map((domain) => (
-            <DomainRow key={domain.id} domain={domain} onSetStatus={requestStatusChange} />
+            <DomainRow key={domain.id} domain={domain} onSetStatus={requestStatusChange} onEdit={setEditDomain} />
           ))
         )}
 
@@ -189,6 +202,15 @@ const DomainTable = () => {
       </div>
 
       <AddDomainDialog open={dialogOpen} onOpenChange={setDialogOpen} onAdd={addDomain} />
+
+      {editDomain && (
+        <EditDomainDialog
+          open={!!editDomain}
+          onOpenChange={(open) => !open && setEditDomain(null)}
+          domain={editDomain}
+          onSave={handleEditSave}
+        />
+      )}
 
       {statusDialog && (
         <StatusChangeDialog
