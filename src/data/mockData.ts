@@ -20,6 +20,7 @@ export interface Domain {
   value: string;
   type: "IP" | "Domain";
   status: "threat" | "trusted";
+  description?: string;
   country?: string;
   addedDate: string;
   tickets: Ticket[];
@@ -126,6 +127,7 @@ export const mockDomains: Domain[] = [
     value: "192.168.1.45",
     type: "IP",
     status: "threat",
+    description: "IP asociat cu activitate suspectă pe portul 443 și tentative brute-force SSH.",
     country: "RU",
     addedDate: "2026-03-14",
     tickets: [
@@ -141,6 +143,7 @@ export const mockDomains: Domain[] = [
     value: "malicious-site.xyz",
     type: "Domain",
     status: "threat",
+    description: "Campanie de phishing ce vizează angajați guvernamentali.",
     country: "CN",
     addedDate: "2026-03-15",
     tickets: [
@@ -152,6 +155,7 @@ export const mockDomains: Domain[] = [
     value: "10.0.0.88",
     type: "IP",
     status: "trusted",
+    description: "Fals pozitiv confirmat – server intern de monitorizare.",
     country: "RO",
     addedDate: "2026-03-10",
     tickets: [
@@ -163,6 +167,7 @@ export const mockDomains: Domain[] = [
     value: "suspicious-domain.ru",
     type: "Domain",
     status: "threat",
+    description: "Server C2 folosit pentru comunicații APT și exfiltrare date.",
     country: "RU",
     addedDate: "2026-03-13",
     tickets: [
