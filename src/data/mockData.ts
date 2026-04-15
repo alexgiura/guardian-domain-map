@@ -185,6 +185,7 @@ export const mockDomains: Domain[] = [
     value: "cdn-provider.com",
     type: "Domain",
     status: "trusted",
+    description: "Furnizor CDN legitim, verificat manual.",
     country: "US",
     addedDate: "2026-03-08",
     tickets: [
@@ -196,6 +197,7 @@ export const mockDomains: Domain[] = [
     value: "172.16.0.12",
     type: "IP",
     status: "threat",
+    description: "Sursă de amplificare DDoS.",
     country: "KP",
     addedDate: "2026-03-14",
     tickets: [
@@ -207,6 +209,7 @@ export const mockDomains: Domain[] = [
     value: "dark-market.onion.ly",
     type: "Domain",
     status: "threat",
+    description: "Marketplace pentru credențiale furate.",
     country: "UA",
     addedDate: "2026-03-11",
     tickets: [
@@ -218,6 +221,7 @@ export const mockDomains: Domain[] = [
     value: "45.33.32.156",
     type: "IP",
     status: "threat",
+    description: "Server de spam relay și distribuție malware.",
     country: "IR",
     addedDate: "2026-03-12",
     tickets: [
@@ -230,6 +234,7 @@ export const mockDomains: Domain[] = [
     value: "gov-update.info",
     type: "Domain",
     status: "threat",
+    description: "Impersonare site guvernamental pentru phishing.",
     country: "CN",
     addedDate: "2026-03-16",
     tickets: [
@@ -241,6 +246,7 @@ export const mockDomains: Domain[] = [
     value: "internal-monitor.local",
     type: "Domain",
     status: "trusted",
+    description: "Server intern de monitorizare rețea.",
     country: "RO",
     addedDate: "2026-03-07",
     tickets: [
