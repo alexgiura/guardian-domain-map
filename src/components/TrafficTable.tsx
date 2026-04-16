@@ -76,13 +76,12 @@ const TrafficTable = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-[1fr_90px_70px_70px_70px_90px_120px] gap-3 px-4 py-2.5 text-[10px] uppercase font-semibold text-muted-foreground border-b border-border bg-muted/50">
+        <div className="grid grid-cols-[1fr_70px_70px_70px_90px_140px] gap-3 px-4 py-2.5 text-[10px] uppercase font-semibold text-muted-foreground border-b border-border bg-muted/50">
           <span className="pl-6">IP Watchlist</span>
-          <span className="text-center">Protocol</span>
           <span className="text-center">Inbound</span>
           <span className="text-center">Outbound</span>
           <span className="text-center">Total</span>
-          <span className="text-center">Trafic</span>
+          <span className="text-center">Bytes</span>
           <span className="text-center">Ultima activitate</span>
         </div>
 
