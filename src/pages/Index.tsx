@@ -4,12 +4,13 @@ import DomainTable from "@/components/DomainTable";
 import Dashboard from "@/components/Dashboard";
 import ImportPage from "@/components/ImportPage";
 import TrafficTable from "@/components/TrafficTable";
+import WatchlistTable from "@/components/WatchlistTable";
 import LoginPage from "@/components/LoginPage";
 
 const Index = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
-  const [activeTab, setActiveTab] = useState<"dashboard" | "domains" | "import" | "traffic">("domains");
+  const [activeTab, setActiveTab] = useState<"dashboard" | "domains" | "import" | "traffic" | "watchlist">("domains");
 
   if (!isLoggedIn) {
     return <LoginPage onLogin={(user) => { setUsername(user); setIsLoggedIn(true); }} />;
@@ -23,6 +24,7 @@ const Index = () => {
         {activeTab === "domains" && <DomainTable />}
         {activeTab === "import" && <ImportPage />}
         {activeTab === "traffic" && <TrafficTable />}
+        {activeTab === "watchlist" && <WatchlistTable />}
       </main>
     </div>
   );
