@@ -106,11 +106,11 @@ const AgentRow = ({ agentId, events }: AgentRowProps) => {
                     <span className="flex items-center">
                       {ev.direction === "inbound" ? (
                         <Badge variant="outline" className="text-[10px] gap-1 text-blue-600 border-blue-300">
-                          <ArrowDownLeft className="h-3 w-3" /> Inbound
+                          <ArrowDownLeft className="h-3 w-3" /> In
                         </Badge>
                       ) : (
                         <Badge variant="outline" className="text-[10px] gap-1 text-orange-600 border-orange-300">
-                          <ArrowUpRight className="h-3 w-3" /> Outbound
+                          <ArrowUpRight className="h-3 w-3" /> Out
                         </Badge>
                       )}
                     </span>
