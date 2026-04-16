@@ -89,7 +89,7 @@ const WatchlistTable = () => {
         </div>
         <Button onClick={() => setAddOpen(true)} size="sm">
           <Plus className="h-4 w-4" />
-          Adaugă în Watchlist
+          Adaugă
         </Button>
       </div>
 
@@ -124,13 +124,19 @@ const WatchlistTable = () => {
               key={entry.id}
               className="grid grid-cols-[1fr_2fr_100px_140px_80px] gap-3 px-4 py-3 items-center border-b border-border last:border-b-0 hover:bg-muted/40 transition-colors"
             >
-              <span className="font-mono text-xs">{entry.value}</span>
+              <span className="flex items-center gap-2 font-mono text-xs min-w-0">
+                {entry.type === "IP" ? (
+                  <Server className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+                ) : (
+                  <Globe className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+                )}
+                <span className="truncate">{entry.value}</span>
+              </span>
               <span className="text-xs text-muted-foreground truncate" title={entry.description}>
                 {entry.description || <span className="italic opacity-50">—</span>}
               </span>
               <span className="flex justify-center">
-                <Badge variant="outline" className="text-[10px] gap-1">
-                  {entry.type === "IP" ? <Server className="h-3 w-3" /> : <Globe className="h-3 w-3" />}
+                <Badge variant="outline" className="text-[10px]">
                   {entry.type}
                 </Badge>
               </span>
