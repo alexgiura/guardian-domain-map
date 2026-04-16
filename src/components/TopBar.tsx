@@ -11,17 +11,18 @@ import {
 import dnscLogo from "@/assets/dnsc-logo.svg";
 
 interface TopBarProps {
-  activeTab: "dashboard" | "domains" | "import";
-  onTabChange: (tab: "dashboard" | "domains" | "import") => void;
+  activeTab: "dashboard" | "domains" | "import" | "traffic";
+  onTabChange: (tab: "dashboard" | "domains" | "import" | "traffic") => void;
   username?: string;
   onLogout?: () => void;
 }
 
 const TopBar = ({ activeTab, onTabChange, username, onLogout }: TopBarProps) => {
-  const tabs: { key: "dashboard" | "domains" | "import"; label: string }[] = [
+  const tabs: { key: "dashboard" | "domains" | "import" | "traffic"; label: string }[] = [
     { key: "dashboard", label: "Dashboard" },
     { key: "domains", label: "Domenii" },
     { key: "import", label: "Import" },
+    { key: "traffic", label: "Trafic" },
   ];
 
   return (
