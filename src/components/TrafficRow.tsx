@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { ChevronDown, ChevronRight, ArrowDownLeft, ArrowUpRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
 import type { TrafficGroup, TrafficEvent } from "@/data/mockTraffic";
 
 interface TrafficRowProps {
@@ -65,33 +64,15 @@ const TrafficRow = ({ group }: TrafficRowProps) => {
           {protocols.join(", ")}
         </span>
 
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <span className="flex justify-center items-center gap-1 text-xs cursor-help">
-                <ArrowDownLeft className="h-3 w-3 text-blue-500" />
-                {inbound}
-              </span>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p className="text-xs">IN = trafic către IP-ul din watchlist</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <span className="flex justify-center items-center gap-1 text-xs">
+          <ArrowDownLeft className="h-3 w-3 text-blue-500" />
+          {inbound}
+        </span>
 
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <span className="flex justify-center items-center gap-1 text-xs cursor-help">
-                <ArrowUpRight className="h-3 w-3 text-orange-500" />
-                {outbound}
-              </span>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p className="text-xs">OUT = trafic dinspre IP-ul din watchlist</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <span className="flex justify-center items-center gap-1 text-xs">
+          <ArrowUpRight className="h-3 w-3 text-orange-500" />
+          {outbound}
+        </span>
 
         <span className="text-xs text-muted-foreground text-center">
           {group.events.length}
