@@ -47,6 +47,14 @@ export default {
           DEFAULT: "hsl(var(--trusted))",
           foreground: "hsl(var(--trusted-foreground))",
         },
+        pending: {
+          DEFAULT: "hsl(var(--pending))",
+          foreground: "hsl(var(--pending-foreground))",
+        },
+        rejected: {
+          DEFAULT: "hsl(var(--rejected))",
+          foreground: "hsl(var(--rejected-foreground))",
+        },
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",

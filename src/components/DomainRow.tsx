@@ -55,9 +55,18 @@ const DomainRow = ({ domain, onSetStatus, onEdit }: DomainRowProps) => {
           </Badge>
         </span>
 
-        <span className="flex justify-center">
-          <Badge variant={isTrusted ? "trusted" : "threat"} className="justify-center text-[10px] uppercase">
-            {isTrusted ? "Trusted" : "Threat"}
+        <span className="flex flex-wrap justify-center gap-1">
+          <Badge variant="trusted" className="justify-center text-[10px] uppercase">
+            Whitelist
+          </Badge>
+          <Badge variant="threat" className="justify-center text-[10px] uppercase">
+            Blacklist
+          </Badge>
+          <Badge variant="pending" className="justify-center text-[10px] uppercase">
+            Pending
+          </Badge>
+          <Badge variant="rejected" className="justify-center text-[10px] uppercase">
+            Rejected
           </Badge>
         </span>
 
