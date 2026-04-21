@@ -95,16 +95,14 @@ const Dashboard = () => {
         {stats.map((stat) => (
           <div
             key={stat.label}
-            className={`bg-card border border-border border-l-4 ${stat.accent} rounded-lg p-5 transition-all hover:shadow-md`}
+            className={`bg-card border border-border border-l-4 ${stat.accent} rounded-lg p-5 transition-all hover:shadow-md flex items-center gap-4`}
           >
-            <div className="flex items-start justify-between">
-              <div className={`${stat.iconBg} ${stat.iconColor} p-2 rounded-md`}>
-                <stat.icon className="h-5 w-5" />
-              </div>
+            <div className={`${stat.iconBg} ${stat.iconColor} p-3 rounded-md flex items-center justify-center`}>
+              <stat.icon className="h-9 w-9" />
             </div>
-            <div className="mt-3">
-              <p className="text-3xl font-bold tracking-tight">{stat.value}</p>
-              <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium mt-1">{stat.label}</p>
+            <div className="flex flex-col justify-center">
+              <p className="text-3xl font-bold tracking-tight leading-none">{stat.value}</p>
+              <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium mt-1.5">{stat.label}</p>
             </div>
           </div>
         ))}
