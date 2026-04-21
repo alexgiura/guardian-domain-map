@@ -95,14 +95,14 @@ const Dashboard = () => {
         {stats.map((stat) => (
           <div
             key={stat.label}
-            className={`bg-card border border-border border-l-4 ${stat.accent} rounded-lg p-5 transition-all hover:shadow-md flex items-center gap-3`}
+            className={`relative overflow-hidden bg-card border border-border border-l-4 ${stat.accent} rounded-lg p-5 transition-all hover:shadow-md`}
           >
-            <div className={`${stat.iconBg} ${stat.iconColor} h-10 w-10 rounded-full flex items-center justify-center shrink-0`}>
-              <stat.icon className="h-5 w-5" />
-            </div>
-            <div className="flex flex-col justify-center min-w-0">
-              <p className="text-2xl font-bold tracking-tight leading-none">{stat.value}</p>
-              <p className="text-[10px] text-muted-foreground uppercase tracking-wide font-medium mt-1 truncate">{stat.label}</p>
+            <stat.icon
+              className={`absolute -right-3 -bottom-3 h-20 w-20 ${stat.iconColor} opacity-10 pointer-events-none`}
+            />
+            <div className="relative flex flex-col">
+              <p className="text-3xl font-bold tracking-tight leading-none">{stat.value}</p>
+              <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium mt-2">{stat.label}</p>
             </div>
           </div>
         ))}
