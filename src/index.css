@@ -37,6 +37,10 @@
     --threat-foreground: 0 72% 51%;
     --trusted: 199 89% 48%;
     --trusted-foreground: 199 89% 48%;
+    --pending: 38 92% 50%;
+    --pending-foreground: 38 92% 50%;
+    --rejected: 215 16% 47%;
+    --rejected-foreground: 215 16% 47%;
 
     --border: 214 32% 91%;
     --input: 214 32% 91%;
