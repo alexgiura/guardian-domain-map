@@ -30,11 +30,13 @@ interface EditDomainDialogProps {
 
 const EditDomainDialog = ({ open, onOpenChange, domain, onSave }: EditDomainDialogProps) => {
   const [description, setDescription] = useState(domain.description || "");
-  const [status, setStatus] = useState<"threat" | "trusted">(domain.status);
+  const [status, setStatus] = useState<"threat" | "trusted">(
+    domain.status === "trusted" ? "trusted" : "threat"
+  );
 
   useEffect(() => {
     setDescription(domain.description || "");
-    setStatus(domain.status);
+    setStatus(domain.status === "trusted" ? "trusted" : "threat");
   }, [domain]);
 
   const handleSubmit = () => {

@@ -33,10 +33,11 @@ const DomainTable = () => {
   const requestStatusChange = (id: string, status: "threat" | "trusted") => {
     const domain = domains.find((d) => d.id === id);
     if (!domain) return;
+    const current = domain.status === "trusted" ? "trusted" : "threat";
     setStatusDialog({
       domainId: id,
       domainValue: domain.value,
-      currentStatus: domain.status,
+      currentStatus: current,
       targetStatus: status,
     });
   };
