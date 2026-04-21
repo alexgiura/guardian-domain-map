@@ -6,10 +6,12 @@ export interface Ticket {
   source: string;
 }
 
+export type DomainStatus = "threat" | "trusted" | "pending" | "rejected";
+
 export interface StatusChange {
   id: string;
-  fromStatus: "threat" | "trusted";
-  toStatus: "threat" | "trusted";
+  fromStatus: DomainStatus;
+  toStatus: DomainStatus;
   comment: string;
   changedBy: string;
   changedAt: string;
@@ -19,7 +21,7 @@ export interface Domain {
   id: string;
   value: string;
   type: "IP" | "Domain";
-  status: "threat" | "trusted";
+  status: DomainStatus;
   description?: string;
   country?: string;
   addedDate: string;
@@ -154,12 +156,12 @@ export const mockDomains: Domain[] = [
     id: "DOM-003",
     value: "10.0.0.88",
     type: "IP",
-    status: "trusted",
-    description: "Fals pozitiv confirmat – server intern de monitorizare.",
+    status: "pending",
+    description: "Cerere de whitelistare în analiză – server intern de monitorizare.",
     country: "RO",
     addedDate: "2026-03-10",
     tickets: [
-      { ticketId: "TK-1004", description: "Fals pozitiv confirmat – server intern monitorizare", tags: ["false-positive", "internal"], date: "2026-03-10", source: "SOC Review" },
+      { ticketId: "TK-1004", description: "Posibil fals pozitiv – în review", tags: ["pending-review", "internal"], date: "2026-03-10", source: "SOC Review" },
     ],
   },
   {
@@ -220,8 +222,8 @@ export const mockDomains: Domain[] = [
     id: "DOM-008",
     value: "45.33.32.156",
     type: "IP",
-    status: "threat",
-    description: "Server de spam relay și distribuție malware.",
+    status: "rejected",
+    description: "Cerere de whitelistare respinsă – server de spam confirmat.",
     country: "IR",
     addedDate: "2026-03-12",
     tickets: [

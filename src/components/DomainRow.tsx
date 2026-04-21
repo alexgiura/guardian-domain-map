@@ -24,12 +24,20 @@ interface DomainRowProps {
 
 type ExpandedTab = "tickets" | "history" | "whitelist" | "whitelist-header" | "whitelist-avatar";
 
+const statusConfig: Record<"threat" | "trusted" | "pending" | "rejected", { label: string; variant: "threat" | "trusted" | "pending" | "rejected" }> = {
+  trusted: { label: "Whitelist", variant: "trusted" },
+  threat: { label: "Blacklist", variant: "threat" },
+  pending: { label: "Pending", variant: "pending" },
+  rejected: { label: "Rejected", variant: "rejected" },
+};
+
 const DomainRow = ({ domain, onSetStatus, onEdit }: DomainRowProps) => {
   const [expanded, setExpanded] = useState(false);
   const [activeTab, setActiveTab] = useState<ExpandedTab>("tickets");
   const isTrusted = domain.status === "trusted";
   const historyCount = (domain.statusHistory || []).length;
   const whitelistCount = (domain.whitelistRequests || []).length;
+  const status = statusConfig[domain.status];
 
   return (
     <div className="border-b border-border last:border-b-0">
@@ -55,18 +63,9 @@ const DomainRow = ({ domain, onSetStatus, onEdit }: DomainRowProps) => {
           </Badge>
         </span>
 
-        <span className="flex flex-wrap justify-center gap-1">
-          <Badge variant="trusted" className="justify-center text-[10px] uppercase">
-            Whitelist
-          </Badge>
-          <Badge variant="threat" className="justify-center text-[10px] uppercase">
-            Blacklist
-          </Badge>
-          <Badge variant="pending" className="justify-center text-[10px] uppercase">
-            Pending
-          </Badge>
-          <Badge variant="rejected" className="justify-center text-[10px] uppercase">
-            Rejected
+        <span className="flex justify-center">
+          <Badge variant={status.variant} className="justify-center text-[10px] uppercase">
+            {status.label}
           </Badge>
         </span>
 
