@@ -98,7 +98,7 @@ const Dashboard = () => {
             className={`relative overflow-hidden bg-card border border-border border-l-4 ${stat.accent} rounded-lg p-5 transition-all hover:shadow-md`}
           >
             <stat.icon
-              className={`absolute -right-3 -bottom-3 h-20 w-20 ${stat.iconColor} opacity-10 pointer-events-none`}
+              className={`absolute right-3 bottom-3 h-16 w-16 ${stat.iconColor} opacity-15 pointer-events-none`}
             />
             <div className="relative flex flex-col">
               <p className="text-3xl font-bold tracking-tight leading-none">{stat.value}</p>
