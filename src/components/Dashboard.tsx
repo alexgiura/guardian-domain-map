@@ -90,22 +90,46 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Stat cards */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        {stats.map((stat) => (
-          <div
-            key={stat.label}
-            className={`bg-card border border-border border-l-4 ${stat.accent} rounded-lg p-5 transition-all hover:shadow-md flex items-center gap-4`}
-          >
-            <div className={`${stat.iconBg} ${stat.iconColor} p-3 rounded-md flex items-center justify-center`}>
-              <stat.icon className="h-9 w-9" />
+      {/* Variant 1: Icon mic în cerc colorat (stânga) + count + label dedesubt */}
+      <div className="flex flex-col gap-2">
+        <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Varianta 1 — Icon în cerc colorat</p>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          {stats.map((stat) => (
+            <div
+              key={`v1-${stat.label}`}
+              className={`bg-card border border-border border-l-4 ${stat.accent} rounded-lg p-5 transition-all hover:shadow-md flex items-center gap-3`}
+            >
+              <div className={`${stat.iconBg} ${stat.iconColor} h-10 w-10 rounded-full flex items-center justify-center shrink-0`}>
+                <stat.icon className="h-5 w-5" />
+              </div>
+              <div className="flex flex-col justify-center min-w-0">
+                <p className="text-2xl font-bold tracking-tight leading-none">{stat.value}</p>
+                <p className="text-[10px] text-muted-foreground uppercase tracking-wide font-medium mt-1 truncate">{stat.label}</p>
+              </div>
             </div>
-            <div className="flex flex-col justify-center">
-              <p className="text-3xl font-bold tracking-tight leading-none">{stat.value}</p>
-              <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium mt-1.5">{stat.label}</p>
+          ))}
+        </div>
+      </div>
+
+      {/* Variant 2: Icon ca watermark mare pe fundal */}
+      <div className="flex flex-col gap-2">
+        <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Varianta 2 — Icon watermark</p>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          {stats.map((stat) => (
+            <div
+              key={`v2-${stat.label}`}
+              className={`relative overflow-hidden bg-card border border-border border-l-4 ${stat.accent} rounded-lg p-5 transition-all hover:shadow-md`}
+            >
+              <stat.icon
+                className={`absolute -right-3 -bottom-3 h-20 w-20 ${stat.iconColor} opacity-10 pointer-events-none`}
+              />
+              <div className="relative flex flex-col">
+                <p className="text-3xl font-bold tracking-tight leading-none">{stat.value}</p>
+                <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium mt-2">{stat.label}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {/* Two-column layout: Recent domains + Top tags */}
