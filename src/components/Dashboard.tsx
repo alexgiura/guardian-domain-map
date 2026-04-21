@@ -1,43 +1,64 @@
-import { ShieldAlert, ShieldCheck, Activity, AlertTriangle, Globe, Server, CalendarDays } from "lucide-react";
+import { ShieldAlert, ShieldCheck, Activity, Clock, XCircle, Globe, Server, CalendarDays, Tag, TrendingUp } from "lucide-react";
 import { mockDomains } from "@/data/mockData";
 import { Badge } from "@/components/ui/badge";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-  AreaChart,
-  Area,
-  CartesianGrid,
-} from "recharts";
 
 const Dashboard = () => {
-  const threatCount = mockDomains.filter((d) => d.status === "threat").length;
-  const trustedCount = mockDomains.filter((d) => d.status === "trusted").length;
-  const totalTickets = mockDomains.reduce((sum, d) => sum + d.tickets.length, 0);
+  const total = mockDomains.length;
+  const blacklistCount = mockDomains.filter((d) => d.status === "threat").length;
+  const whitelistCount = mockDomains.filter((d) => d.status === "trusted").length;
+  const pendingCount = mockDomains.filter((d) => d.status === "pending").length;
+  const rejectedCount = mockDomains.filter((d) => d.status === "rejected").length;
 
   const stats = [
-    { label: "Total Domenii", value: mockDomains.length, icon: Activity, color: "text-foreground" },
-    { label: "Threats", value: threatCount, icon: ShieldAlert, color: "text-threat" },
-    { label: "Trusted", value: trustedCount, icon: ShieldCheck, color: "text-trusted" },
-    { label: "Total Raportări", value: totalTickets, icon: AlertTriangle, color: "text-muted-foreground" },
+    {
+      label: "Total Domenii",
+      value: total,
+      icon: Activity,
+      iconBg: "bg-muted",
+      iconColor: "text-foreground",
+      accent: "border-l-foreground",
+    },
+    {
+      label: "Blacklist",
+      value: blacklistCount,
+      icon: ShieldAlert,
+      iconBg: "bg-threat/10",
+      iconColor: "text-threat",
+      accent: "border-l-threat",
+    },
+    {
+      label: "Whitelist",
+      value: whitelistCount,
+      icon: ShieldCheck,
+      iconBg: "bg-trusted/10",
+      iconColor: "text-trusted",
+      accent: "border-l-trusted",
+    },
+    {
+      label: "Pending",
+      value: pendingCount,
+      icon: Clock,
+      iconBg: "bg-pending/10",
+      iconColor: "text-pending",
+      accent: "border-l-pending",
+    },
+    {
+      label: "Rejected",
+      value: rejectedCount,
+      icon: XCircle,
+      iconBg: "bg-rejected/10",
+      iconColor: "text-rejected",
+      accent: "border-l-rejected",
+    },
   ];
 
-  // --- Threat timeline (tickets per day) ---
-  const ticketsByDate: Record<string, number> = {};
-  mockDomains.forEach((d) =>
-    d.tickets.forEach((t) => {
-      ticketsByDate[t.date] = (ticketsByDate[t.date] || 0) + 1;
-    })
-  );
-  const timelineData = Object.entries(ticketsByDate)
-    .sort(([a], [b]) => a.localeCompare(b))
-    .map(([date, count]) => ({ date: date.slice(5), raportări: count }));
+  // --- Status badge mapping ---
+  const statusConfig: Record<string, { label: string; variant: "threat" | "trusted" | "pending" | "rejected" }> = {
+    threat: { label: "Blacklist", variant: "threat" },
+    trusted: { label: "Whitelist", variant: "trusted" },
+    pending: { label: "Pending", variant: "pending" },
+    rejected: { label: "Rejected", variant: "rejected" },
+  };
 
   // --- Tags distribution ---
   const tagCounts: Record<string, number> = {};
@@ -52,199 +73,130 @@ const Dashboard = () => {
     .sort(([, a], [, b]) => b - a)
     .slice(0, 8)
     .map(([name, value]) => ({ name, value }));
-
-  // --- Country distribution ---
-  const countryCounts: Record<string, number> = {};
-  mockDomains.forEach((d) => {
-    const c = d.country || "N/A";
-    countryCounts[c] = (countryCounts[c] || 0) + 1;
-  });
-  const countryData = Object.entries(countryCounts)
-    .sort(([, a], [, b]) => b - a)
-    .map(([name, value]) => ({ name, value }));
-
-  // --- Type split (pie) ---
-  const ipCount = mockDomains.filter((d) => d.type === "IP").length;
-  const domainCount = mockDomains.filter((d) => d.type === "Domain").length;
-  const typeData = [
-    { name: "IP", value: ipCount },
-    { name: "Domain", value: domainCount },
-  ];
-  const PIE_COLORS = ["hsl(222, 47%, 11%)", "hsl(214, 32%, 71%)"];
+  const maxTagCount = Math.max(...tagsData.map((t) => t.value), 1);
 
   // --- Recent domains ---
   const recentDomains = [...mockDomains]
     .sort((a, b) => b.addedDate.localeCompare(a.addedDate))
-    .slice(0, 5);
+    .slice(0, 6);
 
   return (
     <div className="flex flex-col gap-6">
+      {/* Header */}
+      <div className="flex items-end justify-between">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
+          <p className="text-sm text-muted-foreground mt-1">Privire de ansamblu asupra domeniilor și IP-urilor monitorizate</p>
+        </div>
+      </div>
+
       {/* Stat cards */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {stats.map((stat) => (
-          <div key={stat.label} className="bg-card border border-border rounded-lg p-5 flex items-center gap-4">
-            <div className={stat.color}>
-              <stat.icon className="h-8 w-8" />
-            </div>
-            <div>
-              <p className="text-2xl font-bold">{stat.value}</p>
-              <p className="text-xs text-muted-foreground">{stat.label}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Charts row 1 */}
-      <div className="grid grid-cols-3 gap-4">
-        {/* Timeline */}
-        <div className="col-span-2 bg-card border border-border rounded-lg p-5">
-          <h3 className="text-sm font-semibold mb-4">Raportări în timp</h3>
-          <ResponsiveContainer width="100%" height={220}>
-            <AreaChart data={timelineData}>
-              <defs>
-                <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="hsl(222, 47%, 11%)" stopOpacity={0.3} />
-                  <stop offset="100%" stopColor="hsl(222, 47%, 11%)" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(214, 32%, 91%)" />
-              <XAxis dataKey="date" tick={{ fontSize: 11 }} stroke="hsl(215, 16%, 47%)" />
-              <YAxis allowDecimals={false} tick={{ fontSize: 11 }} stroke="hsl(215, 16%, 47%)" />
-              <Tooltip
-                contentStyle={{
-                  background: "hsl(0, 0%, 100%)",
-                  border: "1px solid hsl(214, 32%, 91%)",
-                  borderRadius: 6,
-                  fontSize: 12,
-                }}
-              />
-              <Area
-                type="monotone"
-                dataKey="raportări"
-                stroke="hsl(222, 47%, 11%)"
-                strokeWidth={2}
-                fill="url(#areaGrad)"
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* Type pie */}
-        <div className="bg-card border border-border rounded-lg p-5">
-          <h3 className="text-sm font-semibold mb-4">Tip intrare</h3>
-          <ResponsiveContainer width="100%" height={220}>
-            <PieChart>
-              <Pie
-                data={typeData}
-                cx="50%"
-                cy="50%"
-                innerRadius={55}
-                outerRadius={80}
-                paddingAngle={4}
-                dataKey="value"
-                label={({ name, value }) => `${name}: ${value}`}
-              >
-                {typeData.map((_, i) => (
-                  <Cell key={i} fill={PIE_COLORS[i]} />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      {/* Charts row 2 */}
-      <div className="grid grid-cols-2 gap-4">
-        {/* Tags bar chart */}
-        <div className="bg-card border border-border rounded-lg p-5">
-          <h3 className="text-sm font-semibold mb-4">Top etichete amenințări</h3>
-          <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={tagsData} layout="vertical">
-              <XAxis type="number" allowDecimals={false} tick={{ fontSize: 11 }} stroke="hsl(215, 16%, 47%)" />
-              <YAxis type="category" dataKey="name" tick={{ fontSize: 11 }} width={110} stroke="hsl(215, 16%, 47%)" />
-              <Tooltip
-                contentStyle={{
-                  background: "hsl(0, 0%, 100%)",
-                  border: "1px solid hsl(214, 32%, 91%)",
-                  borderRadius: 6,
-                  fontSize: 12,
-                }}
-              />
-              <Bar dataKey="value" fill="hsl(0, 84%, 60%)" radius={[0, 4, 4, 0]} barSize={16} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* Country bar chart */}
-        <div className="bg-card border border-border rounded-lg p-5">
-          <h3 className="text-sm font-semibold mb-4">Origine pe țară</h3>
-          <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={countryData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(214, 32%, 91%)" />
-              <XAxis dataKey="name" tick={{ fontSize: 11 }} stroke="hsl(215, 16%, 47%)" />
-              <YAxis allowDecimals={false} tick={{ fontSize: 11 }} stroke="hsl(215, 16%, 47%)" />
-              <Tooltip
-                contentStyle={{
-                  background: "hsl(0, 0%, 100%)",
-                  border: "1px solid hsl(214, 32%, 91%)",
-                  borderRadius: 6,
-                  fontSize: 12,
-                }}
-              />
-              <Bar dataKey="value" fill="hsl(222, 47%, 11%)" radius={[4, 4, 0, 0]} barSize={32} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      {/* Recent domains table */}
-      <div className="bg-card border border-border rounded-lg overflow-hidden">
-        <div className="px-5 py-4 border-b border-border">
-          <h3 className="text-sm font-semibold">Ultimele domenii adăugate</h3>
-        </div>
-        <div className="grid grid-cols-[1fr_80px_100px_80px_100px] gap-4 px-5 py-2.5 text-[10px] uppercase font-semibold text-muted-foreground border-b border-border bg-muted/50">
-          <span>Valoare</span>
-          <span className="text-center">Tip</span>
-          <span className="text-center">Status</span>
-          <span className="text-center">Țară</span>
-          <span className="text-center">Dată</span>
-        </div>
-        {recentDomains.map((d) => (
           <div
-            key={d.id}
-            className="grid grid-cols-[1fr_80px_100px_80px_100px] gap-4 items-center px-5 py-3 border-b border-border last:border-b-0 hover:bg-muted/30 transition-colors"
+            key={stat.label}
+            className={`bg-card border border-border border-l-4 ${stat.accent} rounded-lg p-5 transition-all hover:shadow-md`}
           >
-            <span className="flex items-center gap-2">
-              {d.type === "IP" ? (
-                <Server className="h-3.5 w-3.5 text-muted-foreground" />
-              ) : (
-                <Globe className="h-3.5 w-3.5 text-muted-foreground" />
-              )}
-              <span className="font-mono text-xs">{d.value}</span>
-            </span>
-            <span className="flex justify-center">
-              <Badge variant="outline" className="text-[10px] uppercase justify-center">
-                {d.type}
-              </Badge>
-            </span>
-            <span className="flex justify-center">
-              <Badge
-                variant={d.status === "trusted" ? "trusted" : "threat"}
-                className="text-[10px] uppercase justify-center"
-              >
-                {d.status === "trusted" ? "Trusted" : "Threat"}
-              </Badge>
-            </span>
-            <span className="text-xs text-muted-foreground text-center font-medium">
-              {d.country || "—"}
-            </span>
-            <span className="flex items-center justify-center gap-1 text-xs text-muted-foreground">
-              <CalendarDays className="h-3 w-3" />
-              {d.addedDate}
-            </span>
+            <div className="flex items-start justify-between">
+              <div className={`${stat.iconBg} ${stat.iconColor} p-2 rounded-md`}>
+                <stat.icon className="h-5 w-5" />
+              </div>
+            </div>
+            <div className="mt-3">
+              <p className="text-3xl font-bold tracking-tight">{stat.value}</p>
+              <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium mt-1">{stat.label}</p>
+            </div>
           </div>
         ))}
+      </div>
+
+      {/* Two-column layout: Recent domains + Top tags */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Recent domains table */}
+        <div className="lg:col-span-2 bg-card border border-border rounded-lg overflow-hidden">
+          <div className="px-5 py-4 border-b border-border flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <CalendarDays className="h-4 w-4 text-muted-foreground" />
+              <h3 className="text-sm font-semibold">Ultimele domenii adăugate</h3>
+            </div>
+            <Badge variant="outline" className="text-[10px] uppercase">
+              {recentDomains.length} intrări
+            </Badge>
+          </div>
+          <div className="grid grid-cols-[1fr_70px_100px_90px] gap-3 px-5 py-2.5 text-[10px] uppercase font-semibold text-muted-foreground border-b border-border bg-muted/40">
+            <span>Valoare</span>
+            <span className="text-center">Tip</span>
+            <span className="text-center">Status</span>
+            <span className="text-center">Dată</span>
+          </div>
+          {recentDomains.map((d) => {
+            const cfg = statusConfig[d.status];
+            return (
+              <div
+                key={d.id}
+                className="grid grid-cols-[1fr_70px_100px_90px] gap-3 items-center px-5 py-3 border-b border-border last:border-b-0 hover:bg-muted/30 transition-colors"
+              >
+                <span className="flex items-center gap-2 min-w-0">
+                  {d.type === "IP" ? (
+                    <Server className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+                  ) : (
+                    <Globe className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+                  )}
+                  <span className="font-mono text-xs truncate">{d.value}</span>
+                </span>
+                <span className="flex justify-center">
+                  <Badge variant="outline" className="text-[10px] uppercase">
+                    {d.type}
+                  </Badge>
+                </span>
+                <span className="flex justify-center">
+                  <Badge variant={cfg.variant} className="text-[10px] uppercase">
+                    {cfg.label}
+                  </Badge>
+                </span>
+                <span className="text-xs text-muted-foreground text-center font-medium">
+                  {d.addedDate}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Top tags */}
+        <div className="bg-card border border-border rounded-lg overflow-hidden">
+          <div className="px-5 py-4 border-b border-border flex items-center gap-2">
+            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <h3 className="text-sm font-semibold">Top etichete</h3>
+          </div>
+          <div className="p-5 flex flex-col gap-4">
+            {tagsData.length === 0 && (
+              <p className="text-xs text-muted-foreground text-center py-6">Nu există etichete</p>
+            )}
+            {tagsData.map((tag, idx) => {
+              const pct = (tag.value / maxTagCount) * 100;
+              return (
+                <div key={tag.name} className="flex flex-col gap-1.5">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span className="text-[10px] font-mono text-muted-foreground w-4">
+                        {String(idx + 1).padStart(2, "0")}
+                      </span>
+                      <Tag className="h-3 w-3 text-muted-foreground shrink-0" />
+                      <span className="text-xs font-medium truncate">{tag.name}</span>
+                    </div>
+                    <span className="text-xs font-semibold tabular-nums">{tag.value}</span>
+                  </div>
+                  <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-foreground/80 rounded-full transition-all"
+                      style={{ width: `${pct}%` }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </div>
   );
