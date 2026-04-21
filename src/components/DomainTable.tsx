@@ -9,7 +9,7 @@ import EditDomainDialog from "./EditDomainDialog";
 import StatusChangeDialog from "./StatusChangeDialog";
 import { mockDomains, type Domain, type StatusChange } from "@/data/mockData";
 
-type FilterTab = "all" | "threat" | "trusted";
+type FilterTab = "all" | "threat" | "trusted" | "pending" | "rejected";
 
 const DomainTable = () => {
   const [domains, setDomains] = useState<Domain[]>(mockDomains);
@@ -93,11 +93,15 @@ const DomainTable = () => {
 
   const threatCount = domains.filter((d) => d.status === "threat").length;
   const trustedCount = domains.filter((d) => d.status === "trusted").length;
+  const pendingCount = domains.filter((d) => d.status === "pending").length;
+  const rejectedCount = domains.filter((d) => d.status === "rejected").length;
 
   const tabs: { key: FilterTab; label: string; count: number }[] = [
     { key: "all", label: "Toate", count: domains.length },
-    { key: "threat", label: "Threat", count: threatCount },
-    { key: "trusted", label: "Trusted", count: trustedCount },
+    { key: "threat", label: "Blacklist", count: threatCount },
+    { key: "trusted", label: "Whitelist", count: trustedCount },
+    { key: "pending", label: "Pending", count: pendingCount },
+    { key: "rejected", label: "Rejected", count: rejectedCount },
   ];
 
   return (
