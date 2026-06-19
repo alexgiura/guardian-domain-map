@@ -1,8 +1,9 @@
 import { useState, useMemo } from "react";
-import { Search, Plus, ChevronLeft, ChevronRight } from "lucide-react";
+import { Search, Plus, ChevronLeft, ChevronRight, ShieldAlert, ShieldCheck, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import DomainRow from "./DomainRow";
 import AddDomainDialog from "./AddDomainDialog";
 import EditDomainDialog from "./EditDomainDialog";
@@ -25,6 +26,18 @@ const DomainTable = () => {
     targetStatus: "threat" | "trusted";
   } | null>(null);
   const [editDomain, setEditDomain] = useState<Domain | null>(null);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [bulkDialog, setBulkDialog] = useState<{ targetStatus: "threat" | "trusted" } | null>(null);
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+
+  const clearSelection = () => setSelectedIds(new Set());
 
   const addDomain = (domain: Domain) => {
     setDomains((prev) => [domain, ...prev]);
@@ -130,20 +143,65 @@ const DomainTable = () => {
       </div>
 
       <div className="bg-card rounded-lg border border-border overflow-hidden">
-        <div className="flex items-center px-4 py-3 border-b border-border">
-          <div className="relative w-64">
-            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Caută domeniu sau IP..."
-              value={search}
-              onChange={(e) => handleSearch(e.target.value)}
-              className="pl-9 h-9 text-sm"
-            />
+        {selectedIds.size > 0 ? (
+          <div className="flex items-center justify-between px-4 py-2.5 border-b border-border bg-primary/5">
+            <div className="flex items-center gap-3">
+              <Button variant="ghost" size="icon" className="h-7 w-7" onClick={clearSelection} aria-label="Anulează selecția">
+                <X className="h-4 w-4" />
+              </Button>
+              <span className="text-sm font-medium">{selectedIds.size} selectate</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                size="sm"
+                variant="outline"
+                className="border-threat/40 text-threat hover:bg-threat/10 hover:text-threat"
+                onClick={() => setBulkDialog({ targetStatus: "threat" })}
+              >
+                <ShieldAlert className="h-4 w-4" />
+                Marchează Blacklist
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                className="border-trusted/40 text-trusted hover:bg-trusted/10 hover:text-trusted"
+                onClick={() => setBulkDialog({ targetStatus: "trusted" })}
+              >
+                <ShieldCheck className="h-4 w-4" />
+                Marchează Whitelist
+              </Button>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="flex items-center px-4 py-3 border-b border-border">
+            <div className="relative w-64">
+              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Caută domeniu sau IP..."
+                value={search}
+                onChange={(e) => handleSearch(e.target.value)}
+                className="pl-9 h-9 text-sm"
+              />
+            </div>
+          </div>
+        )}
 
-        <div className="grid grid-cols-[1fr_1fr_80px_100px_80px_44px] gap-4 px-4 py-2.5 text-[10px] uppercase font-semibold text-muted-foreground border-b border-border bg-muted/50">
-          <span className="pl-6">Valoare</span>
+        <div className="grid grid-cols-[36px_1fr_1fr_80px_100px_80px_44px] gap-4 px-4 py-2.5 text-[10px] uppercase font-semibold text-muted-foreground border-b border-border bg-muted/50 items-center">
+          <span className="flex justify-center">
+            <Checkbox
+              checked={paginatedDomains.length > 0 && paginatedDomains.every((d) => selectedIds.has(d.id))}
+              onCheckedChange={(val) => {
+                setSelectedIds((prev) => {
+                  const next = new Set(prev);
+                  if (val) paginatedDomains.forEach((d) => next.add(d.id));
+                  else paginatedDomains.forEach((d) => next.delete(d.id));
+                  return next;
+                });
+              }}
+              aria-label="Selectează toate"
+            />
+          </span>
+          <span>Valoare</span>
           <span>Descriere</span>
           <span className="text-center">Tip</span>
           <span className="text-center">Status</span>
@@ -156,7 +214,14 @@ const DomainTable = () => {
           </div>
         ) : (
           paginatedDomains.map((domain) => (
-            <DomainRow key={domain.id} domain={domain} onSetStatus={requestStatusChange} onEdit={setEditDomain} />
+            <DomainRow
+              key={domain.id}
+              domain={domain}
+              onSetStatus={requestStatusChange}
+              onEdit={setEditDomain}
+              selected={selectedIds.has(domain.id)}
+              onToggleSelect={toggleSelect}
+            />
           ))
         )}
 
@@ -225,6 +290,43 @@ const DomainTable = () => {
           currentStatus={statusDialog.currentStatus}
           targetStatus={statusDialog.targetStatus}
           onConfirm={confirmStatusChange}
+        />
+      )}
+
+      {bulkDialog && (
+        <StatusChangeDialog
+          open={!!bulkDialog}
+          onOpenChange={(open) => !open && setBulkDialog(null)}
+          domainValue=""
+          currentStatus={bulkDialog.targetStatus === "threat" ? "trusted" : "threat"}
+          targetStatus={bulkDialog.targetStatus}
+          bulkCount={selectedIds.size}
+          onConfirm={(comment) => {
+            const target = bulkDialog.targetStatus;
+            const now = new Date().toISOString().replace("T", " ").slice(0, 16);
+            setDomains((prev) =>
+              prev.map((d) => {
+                if (!selectedIds.has(d.id)) return d;
+                if (d.status === target) return d;
+                const from: "threat" | "trusted" = d.status === "trusted" ? "trusted" : "threat";
+                const entry: StatusChange = {
+                  id: crypto.randomUUID(),
+                  fromStatus: from,
+                  toStatus: target,
+                  comment,
+                  changedBy: "Admin User",
+                  changedAt: now,
+                };
+                return {
+                  ...d,
+                  status: target,
+                  statusHistory: [entry, ...(d.statusHistory || [])],
+                };
+              })
+            );
+            setBulkDialog(null);
+            clearSelection();
+          }}
         />
       )}
     </div>

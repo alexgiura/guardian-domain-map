@@ -19,6 +19,7 @@ interface StatusChangeDialogProps {
   currentStatus: "threat" | "trusted";
   targetStatus: "threat" | "trusted";
   onConfirm: (comment: string) => void;
+  bulkCount?: number;
 }
 
 const StatusChangeDialog = ({
@@ -28,6 +29,7 @@ const StatusChangeDialog = ({
   currentStatus,
   targetStatus,
   onConfirm,
+  bulkCount,
 }: StatusChangeDialogProps) => {
   const [comment, setComment] = useState("");
 
@@ -43,22 +45,34 @@ const StatusChangeDialog = ({
     onOpenChange(val);
   };
 
+  const isBulk = !!bulkCount && bulkCount > 1;
+
   return (
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-base">Schimbare status</DialogTitle>
+          <DialogTitle className="text-base">
+            {isBulk ? `Schimbare status (${bulkCount} elemente)` : "Schimbare status"}
+          </DialogTitle>
           <DialogDescription className="text-xs">
-            Adaugă un motiv pentru schimbarea statusului.
+            {isBulk
+              ? "Statusul va fi aplicat tuturor elementelor selectate. Adaugă un motiv."
+              : "Adaugă un motiv pentru schimbarea statusului."}
           </DialogDescription>
         </DialogHeader>
 
         <div className="flex items-center gap-2 text-sm">
-          <span className="font-mono text-xs text-muted-foreground">{domainValue}</span>
-          <span className="text-muted-foreground">:</span>
-          <Badge variant={currentStatus === "trusted" ? "trusted" : "threat"} className="text-[10px] uppercase">
-            {currentStatus}
-          </Badge>
+          {isBulk ? (
+            <span className="text-xs text-muted-foreground">{bulkCount} elemente selectate</span>
+          ) : (
+            <>
+              <span className="font-mono text-xs text-muted-foreground">{domainValue}</span>
+              <span className="text-muted-foreground">:</span>
+              <Badge variant={currentStatus === "trusted" ? "trusted" : "threat"} className="text-[10px] uppercase">
+                {currentStatus}
+              </Badge>
+            </>
+          )}
           <span className="text-muted-foreground">→</span>
           <Badge variant={targetStatus === "trusted" ? "trusted" : "threat"} className="text-[10px] uppercase">
             {targetStatus}
