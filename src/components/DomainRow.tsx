@@ -34,7 +34,7 @@ const statusConfig: Record<"threat" | "trusted" | "pending" | "rejected", { labe
   rejected: { label: "Rejected", variant: "rejected" },
 };
 
-const DomainRow = ({ domain, onSetStatus, onEdit }: DomainRowProps) => {
+const DomainRow = ({ domain, onSetStatus, onEdit, selected, onToggleSelect }: DomainRowProps) => {
   const [expanded, setExpanded] = useState(false);
   const [activeTab, setActiveTab] = useState<ExpandedTab>("tickets");
   const isTrusted = domain.status === "trusted";
@@ -43,11 +43,12 @@ const DomainRow = ({ domain, onSetStatus, onEdit }: DomainRowProps) => {
   const status = statusConfig[domain.status];
 
   return (
-    <div className="border-b border-border last:border-b-0">
-      <button
-        onClick={() => setExpanded(!expanded)}
-        className="w-full grid grid-cols-[1fr_1fr_80px_100px_80px_44px] gap-4 items-center px-4 py-3 hover:bg-muted/50 transition-colors text-left"
-      >
+    <div className={`border-b border-border last:border-b-0 ${selected ? "bg-primary/5" : ""}`}>
+      <div className="w-full grid grid-cols-[36px_1fr_1fr_80px_100px_80px_44px] gap-4 items-center px-4 py-3 hover:bg-muted/50 transition-colors text-left">
+        <span className="flex justify-center" onClick={(e) => e.stopPropagation()}>
+          <Checkbox checked={selected} onCheckedChange={() => onToggleSelect(domain.id)} aria-label="Selectează rând" />
+        </span>
+        <button onClick={() => setExpanded(!expanded)} className="contents text-left">
         <span className="flex items-center gap-2">
           <span className="text-muted-foreground">
             {expanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
