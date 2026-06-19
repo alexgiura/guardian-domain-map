@@ -292,6 +292,43 @@ const DomainTable = () => {
           onConfirm={confirmStatusChange}
         />
       )}
+
+      {bulkDialog && (
+        <StatusChangeDialog
+          open={!!bulkDialog}
+          onOpenChange={(open) => !open && setBulkDialog(null)}
+          domainValue=""
+          currentStatus={bulkDialog.targetStatus === "threat" ? "trusted" : "threat"}
+          targetStatus={bulkDialog.targetStatus}
+          bulkCount={selectedIds.size}
+          onConfirm={(comment) => {
+            const target = bulkDialog.targetStatus;
+            const now = new Date().toISOString().replace("T", " ").slice(0, 16);
+            setDomains((prev) =>
+              prev.map((d) => {
+                if (!selectedIds.has(d.id)) return d;
+                if (d.status === target) return d;
+                const from: "threat" | "trusted" = d.status === "trusted" ? "trusted" : "threat";
+                const entry: StatusChange = {
+                  id: crypto.randomUUID(),
+                  fromStatus: from,
+                  toStatus: target,
+                  comment,
+                  changedBy: "Admin User",
+                  changedAt: now,
+                };
+                return {
+                  ...d,
+                  status: target,
+                  statusHistory: [entry, ...(d.statusHistory || [])],
+                };
+              })
+            );
+            setBulkDialog(null);
+            clearSelection();
+          }}
+        />
+      )}
     </div>
   );
 };
