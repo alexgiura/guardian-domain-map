@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ChevronDown, ChevronRight, Globe, Server, MoreVertical, ShieldCheck, ShieldAlert, Pencil } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,6 +21,8 @@ interface DomainRowProps {
   domain: Domain;
   onSetStatus: (id: string, status: "threat" | "trusted") => void;
   onEdit: (domain: Domain) => void;
+  selected: boolean;
+  onToggleSelect: (id: string) => void;
 }
 
 type ExpandedTab = "tickets" | "history" | "whitelist" | "whitelist-header" | "whitelist-avatar";
