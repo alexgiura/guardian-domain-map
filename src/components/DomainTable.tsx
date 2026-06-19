@@ -26,6 +26,18 @@ const DomainTable = () => {
     targetStatus: "threat" | "trusted";
   } | null>(null);
   const [editDomain, setEditDomain] = useState<Domain | null>(null);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [bulkDialog, setBulkDialog] = useState<{ targetStatus: "threat" | "trusted" } | null>(null);
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+
+  const clearSelection = () => setSelectedIds(new Set());
 
   const addDomain = (domain: Domain) => {
     setDomains((prev) => [domain, ...prev]);
